@@ -18,4 +18,9 @@ export default class UserService {
     async findById(id: string) {
         return await User.findById(id, "-__v");
     }
+
+    async getAllUsers() {
+        return await User.find({}, "-__v");
+    }
+
 }

@@ -7,7 +7,7 @@ const {
     findByUserName,
     createUser,
     findById,
-    getAllUsers
+    editById
 } = new UserService();
 const {
     DUPLICATE_EMAIL,
@@ -15,7 +15,7 @@ const {
     CREATED,
     INVALID_ID,
     FETCHED,
-    FETCHEDALL
+    UPDATED
 } = MESSAGES.USER;
 
 export default class UserController {
@@ -79,13 +79,46 @@ export default class UserController {
         });
     }
 
-    async getUsers(req: Request, res: Response) {
-        const users = await getAllUsers();
-        return res.status(200).send({
-          success: true,
-          message: FETCHEDALL,
-          data: users
-        });
+    async editUserById(req: Request, res: Response) {
+        const id = req.params.id;
+        const data = req.body;
+        //use the id to check if the user exists
+        if(!(await findById(id))) {
+            return res.status(404).json({
+                success: false,
+                message: INVALID_ID
+            })
+        }
+        //check if email already exist if the email needs to be updated
+        if(data.email){
+            const userEmailWithEmail  = await findByEmail(data.email)
+            if(userEmailWithEmail){
+                if(userEmailWithEmail._id.toString() !== id){
+                    return res.status(403).json({
+                        success: false,
+                        message: DUPLICATE_EMAIL
+                    })
+                }
+            }
+        }
+        //check if username already exist if the username needs to be updated
+        if(data.username){
+            const userWithUsername  = await findByUserName(data.username)
+            if(userWithUsername){
+                if(userWithUsername._id.toString() !== id){
+                    return res.status(403).json({
+                        success: false,
+                        message: DUPLICATE_USERNAME
+                    })
+                }
+            }
+        }
+        const updatedUser = await editById(id, data)
+        return res.status(200).json({
+            success: true,
+            message: UPDATED,
+            data: updatedUser
+        })
     }
 
 }

@@ -92,21 +92,24 @@ userSchema.pre("save", async function (next) {
 
 userSchema.pre("findOneAndUpdate", async function (next) {
     const update: any = this.getUpdate();
+    let passwordHash;
+    //Only hash the password when the password field is to be updated to avoid rehashing already hashed password
     if (update.$set.password) {
         const salt = await bcrypt.genSalt(SALTROUNDS);
-        const passwordHash = await bcrypt.hash(update.$set.password, salt);
-        this.setUpdate({ $set: {
-            password: passwordHash
-        }});
-
-        // Call the generateRandomAvatar function to assign a random avatarURL to the user when an update is made
-        const _email = update.$set.email;
-        const _avatarURL: string = generateRandomAvatar(_email!);
-        this.setUpdate({ $set: {
-            avatarURL: _avatarURL
-        }});
+        passwordHash = await bcrypt.hash(update.$set.password, salt);
     }
     
+    // Call the generateRandomAvatar function to assign a random avatarURL to the user when an update is made
+    const _email = update.$set.email;
+    const _avatarURL: string = generateRandomAvatar(_email!);
+
+    this.setUpdate({ 
+        $set: {
+            updatedAt: new Date(),
+            avatarURL: _avatarURL,
+            password: passwordHash
+        }
+    });
     next()
 });
 

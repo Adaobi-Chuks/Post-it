@@ -20,12 +20,14 @@
   "homepage": "https://github.com/Adaobi-Chuks/Post-it#readme",
   "dependencies": {
     "@types/node": "^18.14.6",
+    "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^7.0.1",
     "typescript": "^4.9.5"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/express": "^4.17.17"
   }
 }

@@ -1,5 +1,15 @@
 const DATABASE_URI = process.env.DATABASE_URI;
 const PORT = process.env.PORT || 9871;
+const SALTROUNDS = 10;
+const ENUM = {
+    GUEST: "guest",
+    ADMIN: "admin",
+    MALE: "male",
+    FEMALE: "female"
+};
+const DATABASES = {
+    USER: "user"
+};
 const MESSAGES = {
     DATABASE: {
         CONNECTED: "MongoDB is connected",
@@ -10,5 +20,8 @@ const MESSAGES = {
 export {
     DATABASE_URI,
     PORT,
+    SALTROUNDS,
+    ENUM,
+    DATABASES,
     MESSAGES
 };

@@ -1,6 +1,6 @@
 import IUser, { IUserWithId } from "../interfaces/user.interface";
 import jwt from "jsonwebtoken";
-import { MAXAGE, SECRET } from "../config/constants.config";
+import { MAXAGE, SECRET } from "../configs/constants.config";
 
 //creates a json web token
 export const generateAuthToken = (user: IUserWithId) => {

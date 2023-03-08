@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import {ENUM, SALTROUNDS, DATABASES} from "../config/constants.config";
+import {ENUM, SALTROUNDS, DATABASES} from "../configs/constants.config";
 import bcrypt from "bcrypt";
 import { generateRandomAvatar } from "../utils/randomAvatarURL.util";
 import IUser from "../interfaces/user.interface";

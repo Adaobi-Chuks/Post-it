@@ -1,8 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
-import database from "./config/database.config";
-import {PORT} from "./config/constants.config";
+import database from "./configs/database.config";
+import {PORT} from "./configs/constants.config";
 
 const app = express();
 

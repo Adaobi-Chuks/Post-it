@@ -25,6 +25,7 @@ const MESSAGES = {
         UPDATED: "User updated successfully.",
         FETCHED: "User fetched successfully",
         FETCHEDALL: "All available users fetched successfully",
+        DELETED: "User deleted successfully",
     },
 };
 

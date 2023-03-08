@@ -5,7 +5,8 @@ const {
     createUser,
     getUserById,
     getUsers,
-    editUserById
+    editUserById,
+    deleteUserById
 } = new UserController();
 
 //create a user or signup
@@ -19,5 +20,8 @@ router.get("/", getUsers);
 
 //edit any user details
 router.patch("/:id", editUserById);
+
+// delete user
+router.delete("/:id", deleteUserById);
 
 export default router;

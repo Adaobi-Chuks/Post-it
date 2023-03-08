@@ -27,4 +27,8 @@ export default class UserService {
         return await User.findByIdAndUpdate(id, { $set: obj }, { new: true });
     }
 
+    async deleteUserById(id: string) {
+        return await User.findByIdAndDelete(id);
+    }
+
 }

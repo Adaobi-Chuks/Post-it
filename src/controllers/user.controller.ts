@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { MAXAGE, MESSAGES } from "../config/constants.config";
+import { MAXAGE, MESSAGES } from "../configs/constants.config";
 import UserService from "../services/user.service";
 import { generateAuthToken } from "../utils/authToken.util";
 const {

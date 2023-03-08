@@ -3,9 +3,9 @@ import dotenv from "dotenv";
 dotenv.config();
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import database from "./config/database.config";
+import database from "./configs/database.config";
 import rootRoute from "./routes/index.route";
-import {PORT} from "./config/constants.config";
+import {PORT} from "./configs/constants.config";
 
 const app = express();
 

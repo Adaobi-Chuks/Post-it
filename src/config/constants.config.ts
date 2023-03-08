@@ -23,6 +23,7 @@ const MESSAGES = {
         CREATED: "User created successfully.",
         INVALID_ID: "User ID does not exist",
         FETCHED: "User fetched successfully",
+        FETCHEDALL: "All available users fetched successfully",
     },
 };
 

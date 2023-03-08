@@ -6,14 +6,16 @@ const {
     findByEmail,
     findByUserName,
     createUser,
-    findById
+    findById,
+    getAllUsers
 } = new UserService();
 const {
     DUPLICATE_EMAIL,
     DUPLICATE_USERNAME,
     CREATED,
     INVALID_ID,
-    FETCHED
+    FETCHED,
+    FETCHEDALL
 } = MESSAGES.USER;
 
 export default class UserController {
@@ -74,6 +76,15 @@ export default class UserController {
           success: true,
           message: FETCHED,
           data: user
+        });
+    }
+
+    async getUsers(req: Request, res: Response) {
+        const users = await getAllUsers();
+        return res.status(200).send({
+          success: true,
+          message: FETCHEDALL,
+          data: users
         });
     }
 

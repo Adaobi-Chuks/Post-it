@@ -14,4 +14,8 @@ export default class UserService {
     async createUser(user: Partial<IUser>) {
         return await User.create(user);
     }
+
+    async findById(id: string) {
+        return await User.findById(id, "-__v");
+    }
 }

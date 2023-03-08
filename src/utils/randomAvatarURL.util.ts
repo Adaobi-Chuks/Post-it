@@ -31,7 +31,7 @@ const getRandomAvatarStyle = () => {
     return avatarStyles[randomNum];
 }
 
-export const generateRandomAvatar = async (email: string) => {
+export const generateRandomAvatar = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const _email = email.replaceAll(" ", "");
@@ -44,7 +44,7 @@ export const generateRandomAvatar = async (email: string) => {
 
     //generates a random alphanumeric of length 5
     const entropySource = () => {
-        Math.random().toString(36).substring(2,7);
+        return Math.random().toString(36).substring(2,7);
     };
 
     const replaceAt = `-${entropySource()}-`

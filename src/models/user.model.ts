@@ -17,6 +17,7 @@ const userSchema = new Schema({
         required: true, 
         minlength: 8, 
         maxlength: 25,
+        unique: true,
         trim: true
     },
     email: {
@@ -35,9 +36,9 @@ const userSchema = new Schema({
     avatarURL: {
         type: String,
         default: function() {
-            // Call the *** function to generate a random avatarURL
-            const _email = (this as IUser).email;
-            const _avatarURL = generateRandomAvatar(_email);
+            // Call the generateRandomAvatar function to assign a random avatarURL to the user
+            const _email: string = (this as IUser).email!;
+            const _avatarURL = generateRandomAvatar(_email!);
             return _avatarURL;
         }
     },
@@ -56,7 +57,8 @@ const userSchema = new Schema({
     bio: {
         type: String, 
         required: false,
-        trim: true
+        trim: true,
+        default: null
     },
     gender: {
         type: String, 
@@ -74,7 +76,7 @@ const userSchema = new Schema({
         enum: [ENUM.GUEST, ENUM.ADMIN],
         default: ENUM.GUEST,
         lowercase: true,
-        required: true
+        required: false
     },
 }, { 
     timestamps: true
@@ -96,7 +98,15 @@ userSchema.pre("findOneAndUpdate", async function (next) {
         this.setUpdate({ $set: {
             password: passwordHash
         }});
+
+        // Call the generateRandomAvatar function to assign a random avatarURL to the user when an update is made
+        const _email = update.$set.email;
+        const _avatarURL: string = generateRandomAvatar(_email!);
+        this.setUpdate({ $set: {
+            avatarURL: _avatarURL
+        }});
     }
+    
     next()
 });
 

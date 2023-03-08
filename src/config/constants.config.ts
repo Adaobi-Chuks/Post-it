@@ -21,8 +21,9 @@ const MESSAGES = {
         DUPLICATE_EMAIL: "Email already exist.",
         DUPLICATE_USERNAME: "UserName already exist.",
         CREATED: "User created successfully.",
-        INVALID_ID: "User ID does not exist",
-        FETCHED: "User fetched successfully",
+        INVALID_ID: "User ID does not exist.",
+        FETCHED: "User fetched successfully.",
+        UPDATED: "User updated successfully."
     },
 };
 

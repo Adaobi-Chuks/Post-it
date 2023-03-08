@@ -18,4 +18,9 @@ export default class UserService {
     async findById(id: string) {
         return await User.findById(id, "-__v");
     }
+
+    async editById(id: string, obj: Partial<IUser>) {
+        return await User.findByIdAndUpdate(id, { $set: obj }, { new: true });
+    }
+
 }

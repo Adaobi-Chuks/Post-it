@@ -5,12 +5,15 @@ import { generateAuthToken } from "../utils/authToken.util";
 const {
     findByEmail,
     findByUserName,
-    createUser
+    createUser,
+    findById
 } = new UserService();
 const {
     DUPLICATE_EMAIL,
     DUPLICATE_USERNAME,
-    CREATED
+    CREATED,
+    INVALID_ID,
+    FETCHED
 } = MESSAGES.USER;
 
 export default class UserController {
@@ -41,7 +44,7 @@ export default class UserController {
             });
         }
 
-        //create a user if the email and username doesn't exist
+        //creates a user if the email and username doesn't exist
         const createdUser = await createUser(data);
         const token = generateAuthToken(createdUser as any);
         res.cookie("token", token, {
@@ -54,6 +57,24 @@ export default class UserController {
                 message: CREATED,
                 data: {createdUser, token}
             });
+    }
+
+    async getUserById(req: Request, res: Response) {
+        //checks if user exists
+        const user = await findById(req.params.id);
+    
+        if (!user) {
+          return res.status(404).send({
+            success: false,
+            message: INVALID_ID
+          });
+        }
+
+        return res.status(200).send({
+          success: true,
+          message: FETCHED,
+          data: user
+        });
     }
 
 }

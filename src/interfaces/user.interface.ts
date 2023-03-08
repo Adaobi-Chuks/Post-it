@@ -10,3 +10,6 @@ export default interface IUser {
     location: string;
     role: string
 }
+export interface IUserWithId extends IUser {
+    _id: string;
+}

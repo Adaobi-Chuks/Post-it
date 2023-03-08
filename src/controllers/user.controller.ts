@@ -8,7 +8,8 @@ const {
     createUser,
     findById,
     getAllUsers,
-    editById
+    editById,
+    deleteUserById
 } = new UserService();
 const {
     DUPLICATE_EMAIL,
@@ -17,7 +18,8 @@ const {
     INVALID_ID,
     FETCHED,
     FETCHEDALL,
-    UPDATED
+    UPDATED,
+    DELETED
 } = MESSAGES.USER;
 
 export default class UserController {
@@ -130,6 +132,28 @@ export default class UserController {
             message: UPDATED,
             data: updatedUser
         })
+    }
+
+    async deleteUserById(req: Request, res: Response) {
+        const id = req.params.id;
+        //check to see if a roomtype with id exists
+        const userToDelete = await findById(id);
+        //deletes the roomtype if the id exist
+        if(userToDelete) {
+            const userDeleted = await deleteUserById(id);
+            if(userDeleted) {
+                return res.status(201).send({
+                    success: true,
+                    message: DELETED
+                });
+            }
+        }
+        //sends an error if the id doesn't exists
+        return res.status(404)
+            .send({
+                success: false,
+                message: INVALID_ID
+            });   
     }
 
 }

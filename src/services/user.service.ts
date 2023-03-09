@@ -4,11 +4,11 @@ import User from "../models/user.model";
 export default class UserService {
 
     async findByEmail(email: string) {
-        return await User.findOne({email}, "-__v");
+        return await User.findOne({ email: email, isDeleted: false }, "-__v");
     }
 
     async findByUserName(userName: string) {
-        return await User.findOne({userName}, "-__v");
+        return await User.findOne({ userName: userName, isDeleted: false }, "-__v");
     }
 
     async createUser(user: Partial<IUser>) {
@@ -16,19 +16,28 @@ export default class UserService {
     }
 
     async findById(id: string) {
-        return await User.findById(id, "-__v");
+        return await User.findOne({ _id: id, isDeleted: false }, "-__v");
     }
 
     async getAllUsers() {
-        return await User.find({}, "-__v");
+        let filter: any = {};
+        filter.isDeleted = false;
+        return await User.find(filter, "-__v");
     }
 
     async editById(id: string, obj: Partial<IUser>) {
-        return await User.findByIdAndUpdate(id, { $set: obj }, { new: true });
+        if(await User.findOne({ _id: id, isDeleted: false })){
+            return await User.findByIdAndUpdate(id, { $set: obj }, { new: true });
+        }
     }
 
     async deleteUserById(id: string) {
-        return await User.findByIdAndDelete(id);
+        if(await User.findById(id)) {
+          return await User.updateOne(
+            { _id: id, isDeleted: false }, 
+            {isDeleted: true},
+            {omitUndefined: true});
+        }
     }
 
 }

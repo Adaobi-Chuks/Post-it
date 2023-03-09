@@ -34,7 +34,7 @@ const getRandomAvatarStyle = () => {
 export const generateRandomAvatar = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    const _email = email.replaceAll(" ", "");
+    const _email = email.replace(/\s/g, "");
 
     const isValidEmail = emailRegex.test(_email);
 

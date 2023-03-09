@@ -139,6 +139,7 @@ export default class UserController {
         //check to see if a roomtype with id exists
         const userToDelete = await findById(id);
         //deletes the roomtype if the id exist
+
         if(userToDelete) {
             const userDeleted = await deleteUserById(id);
             if(userDeleted) {

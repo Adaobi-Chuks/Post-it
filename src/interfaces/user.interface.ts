@@ -8,6 +8,7 @@ export default interface IUser {
     bio: string;
     gender: string;
     location: string;
+    isDeleted: boolean;
     role: string
 }
 export interface IUserWithId extends IUser {

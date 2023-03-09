@@ -1,7 +1,7 @@
 import { model, Schema, Types } from "mongoose";
 import {DATABASES} from "../configs/constants.config";
 
-const postSchema = new Schema({
+const commentSchema = new Schema({
     textContent: {
         type: String, 
         required: true,
@@ -16,17 +16,16 @@ const postSchema = new Schema({
         required: true,
         trim: true
     },
+    postId: {
+        type: Types.ObjectId,
+        ref: DATABASES.POST,
+        required: true,
+        trim: true
+    },
     isDeleted: {
         type: Boolean,
         default: false
     },
-    //might be implemented later
-    // tag: {
-    //     type: Types.ObjectId,
-    //     ref: DATABASES.TAG,
-    //     required: false,
-    //     trim: true
-    // },
     // like: {
     //     type: Types.ObjectId,
     //     ref: DATABASES.LIKE,
@@ -37,5 +36,5 @@ const postSchema = new Schema({
     timestamps: true
 });
 
-const Post = model(DATABASES.POST, postSchema);
-export default Post;
+const Comment = model(DATABASES.COMMENT, commentSchema);
+export default Comment;

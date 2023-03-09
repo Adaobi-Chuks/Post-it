@@ -8,7 +8,7 @@ const Post = new PostService();
 const {
     createComment,
     findById,
-    // getAllPosts,
+    getAll,
     // updateById,
     // deleteById
 } = new CommentService();
@@ -16,7 +16,7 @@ const {
     CREATED,
     INVALID_ID,
     FETCHED,
-    // FETCHEDALL,
+    FETCHEDALL,
     // UPDATED,
     // DELETED
 } = MESSAGES.COMMENT;
@@ -64,22 +64,15 @@ export default class CommentController {
             data: comment
         });
     }
-        
-    //     return res.status(200).send({
-    //         success: true,
-    //         message: FETCHED,
-    //         data: post
-    //     });
-    // }
     
-    // async getPost(req: Request, res: Response) {
-    //     const posts = await getAllPosts();
-    //     return res.status(200).send({
-    //         success: true,
-    //         message: FETCHEDALL,
-    //         data: posts
-    //     });
-    // }
+    async getComment(req: Request, res: Response) {
+        const comment = await getAll();
+        return res.status(200).send({
+            success: true,
+            message: FETCHEDALL,
+            data: comment
+        });
+    }
 
     // async updateById(req: Request, res: Response) {
     //     const id = req.params.id;

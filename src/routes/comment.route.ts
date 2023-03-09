@@ -4,7 +4,7 @@ import CommentController from "../controllers/comment.controller";
 const {
     createComment,
     getCommentById,
-    // getPost,
+    getComment,
     // updateById,
     // deleteById
 } = new CommentController();
@@ -15,8 +15,8 @@ router.post("/", createComment);
 //get a comment with an id
 router.get("/:id", getCommentById);
 
-// //get comments
-// router.get("/", getPost);
+//get comments
+router.get("/", getComment);
 
 // //update comment details by id
 // router.put("/:id", updateById);

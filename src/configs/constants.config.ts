@@ -10,7 +10,8 @@ const ENUM = {
     FEMALE: "female"
 };
 const DATABASES = {
-    USER: "user"
+    USER: "user",
+    POST: "post",
 };
 const MESSAGES = {
     DATABASE: {

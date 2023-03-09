@@ -28,6 +28,16 @@ const MESSAGES = {
         FETCHEDALL: "All available users fetched successfully",
         DELETED: "User deleted successfully",
     },
+    POST: {
+        CREATED: "Post created successfully.",
+        // DUPLICATE_EMAIL: "Email already exist.",
+        // DUPLICATE_USERNAME: "UserName already exist.",
+        // INVALID_ID: "User ID does not exist.",
+        // UPDATED: "User updated successfully.",
+        // FETCHED: "User fetched successfully",
+        // FETCHEDALL: "All available users fetched successfully",
+        // DELETED: "User deleted successfully",
+    },
 };
 
 export {

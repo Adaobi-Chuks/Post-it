@@ -8,19 +8,25 @@ export default class PostService {
     }
 
     async findById(id: string) {
-        return await Post.findOne({ _id: id}, "-__v");
+        return await Post.findOne({ _id: id, isDeleted: false }, "-__v");
     }
 
     async getAllPosts() {
-        return await Post.find({}, "-__v");
+        let filter: any = {};
+        filter.isDeleted = false;
+        return await Post.find(filter, "-__v");
     }
 
     async updateById(id: string, text: string) {
-        return await Post.findByIdAndUpdate(id, { textContent: text }, { new: true });
+        if(await Post.findOne({ _id: id, isDeleted: false })){
+            return await Post.findByIdAndUpdate(id, { textContent: text }, { new: true });
+        }
     }
 
     async deleteById(id: string) {
-        return await Post.findByIdAndDelete(id);
+        return await Post.updateOne(
+            { _id: id, isDeleted: false }, 
+            {isDeleted: true}
+        );
     }
-
 }

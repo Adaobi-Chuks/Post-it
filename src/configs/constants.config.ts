@@ -31,8 +31,8 @@ const MESSAGES = {
     },
     POST: {
         CREATED: "Post created successfully.",
-        FETCHED: "User fetched successfully",
-        FETCHEDALL: "All available users fetched successfully",
+        FETCHED: "Post fetched successfully",
+        FETCHEDALL: "All available posts fetched successfully",
         INVALID_ID: "Post ID does not exist.",
         UPDATED: "Post updated successfully.",
         DELETED: "Post deleted successfully"
@@ -41,9 +41,9 @@ const MESSAGES = {
         CREATED: "Comment created successfully.",
         INVALID_ID: "Comment ID does not exist.",
         FETCHED: "Comment fetched successfully",
-        // FETCHEDALL: "All available users fetched successfully",
-        // UPDATED: "Post updated successfully.",
-        // DELETED: "Post deleted successfully"
+        FETCHEDALL: "All available comment fetched successfully",
+        // UPDATED: "Comment updated successfully.",
+        // DELETED: "Comment deleted successfully"
     },
 };
 

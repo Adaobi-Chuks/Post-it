@@ -5,7 +5,7 @@ const {
     createPost,
     getPostById,
     getPost,
-    // editUserById,
+    updateById
     // deleteUserById
 } = new PostController();
 
@@ -18,8 +18,8 @@ router.get("/:id", getPostById);
 //get posts
 router.get("/", getPost);
 
-// //edit any post details
-// router.patch("/:id", editUserById);
+//update post details by id
+router.patch("/:id", updateById);
 
 // // delete post
 // router.patch("/delete/:id", deleteUserById);

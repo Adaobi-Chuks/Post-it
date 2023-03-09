@@ -15,4 +15,8 @@ export default class PostService {
         return await Post.find({}, "-__v");
     }
 
+    async updateById(id: string, text: string) {
+        return await Post.findByIdAndUpdate(id, { textContent: text }, { new: true });
+    }
+
 }

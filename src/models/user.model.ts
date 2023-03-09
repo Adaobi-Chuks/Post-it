@@ -102,9 +102,18 @@ userSchema.pre("findOneAndUpdate", async function (next) {
         const salt = await bcrypt.genSalt(SALTROUNDS);
         passwordHash = await bcrypt.hash(update.$set.password, salt);
     }
+
+    //get the email from the body or from the already saved user details
+    let _email: string;
+    if(update.$set.email) {
+        _email = update.$set.email as string;
+    } else {
+        //this.Query() is used to get the argument and it's type passed in in the method that triggers this function
+        const user = await this.model.findOne(this.getQuery());
+        _email = user.email;
+    }
     
     // Call the generateRandomAvatar function to assign a random avatarURL to the user when an update is made
-    const _email: string = update.$set.email as string;
     update.$set.avatarURL = generateRandomAvatar(_email);
     update.$set.password = passwordHash;
     update.$set.updatedAt = new Date();

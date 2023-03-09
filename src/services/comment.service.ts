@@ -7,9 +7,9 @@ export default class CommentService {
         return await Comment.create(comment);
     }
 
-    // async findById(id: string) {
-    //     return await Post.findOne({ _id: id, isDeleted: false }, "-__v");
-    // }
+    async findById(id: string) {
+        return await Comment.findOne({ _id: id, isDeleted: false }, "-__v");
+    }
 
     // async getAllPosts() {
     //     let filter: any = {};

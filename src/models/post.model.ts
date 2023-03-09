@@ -16,6 +16,10 @@ const postSchema = new Schema({
         required: true,
         trim: true
     },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    },
     //might be implemented later
     // tag: {
     //     type: Types.ObjectId,

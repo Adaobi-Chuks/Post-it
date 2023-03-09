@@ -19,9 +19,9 @@ router.get("/:id", getPostById);
 router.get("/", getPost);
 
 //update post details by id
-router.patch("/:id", updateById);
+router.put("/:id", updateById);
 
-// delete post
-router.delete("/:id", deleteById);
+//delete post
+router.delete("/delete/:id", deleteById);
 
 export default router;

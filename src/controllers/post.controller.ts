@@ -5,7 +5,8 @@ const {
     createPost,
     getAllPosts,
     findById,
-    updateById
+    updateById,
+    deleteById
 } = new PostService();
 const {
     CREATED,
@@ -13,9 +14,7 @@ const {
     FETCHEDALL,
     INVALID_ID,
     UPDATED,
-    // DUPLICATE_EMAIL,
-    // DUPLICATE_USERNAME,
-    // DELETED
+    DELETED
 } = MESSAGES.POST;
 
 export default class PostController {
@@ -74,6 +73,29 @@ export default class PostController {
             message: UPDATED,
             data: updatedPost
         })
+    }
+
+    async deleteById(req: Request, res: Response) {
+        const id = req.params.id;
+        //check to see if a post with id exists
+        const postToDelete = await findById(id);
+
+        //deletes the post if the id exist
+        if(postToDelete) {
+            const userDeleted = await deleteById(id);
+            if(userDeleted) {
+                return res.status(201).send({
+                    success: true,
+                    message: DELETED
+                });
+            }
+        }
+        //sends an error if the id doesn't exists
+        return res.status(404)
+            .send({
+                success: false,
+                message: INVALID_ID
+            });   
     }
 
 }

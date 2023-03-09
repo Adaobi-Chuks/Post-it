@@ -19,4 +19,8 @@ export default class PostService {
         return await Post.findByIdAndUpdate(id, { textContent: text }, { new: true });
     }
 
+    async deleteById(id: string) {
+        return await Post.findByIdAndDelete(id);
+    }
+
 }

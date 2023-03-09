@@ -31,7 +31,7 @@ export default class UserService {
         }
     }
 
-    async deleteUserById(id: string) {
+    async deleteById(id: string) {
         if(await User.findById(id)) {
           return await User.updateOne(
             { _id: id, isDeleted: false }, 

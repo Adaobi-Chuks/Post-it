@@ -9,7 +9,7 @@ const {
     findById,
     getAllUsers,
     editById,
-    deleteUserById
+    deleteById
 } = new UserService();
 const {
     DUPLICATE_EMAIL,
@@ -134,14 +134,14 @@ export default class UserController {
         })
     }
 
-    async deleteUserById(req: Request, res: Response) {
+    async deleteById(req: Request, res: Response) {
         const id = req.params.id;
-        //check to see if a roomtype with id exists
+        //check to see if a user with id exists
         const userToDelete = await findById(id);
-        //deletes the roomtype if the id exist
 
+        //deletes the user if the id exist
         if(userToDelete) {
-            const userDeleted = await deleteUserById(id);
+            const userDeleted = await deleteById(id);
             if(userDeleted) {
                 return res.status(201).send({
                     success: true,

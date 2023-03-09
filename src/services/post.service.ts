@@ -7,4 +7,8 @@ export default class PostService {
         return await Post.create(post);
     }
 
+    async getAllPosts() {
+        return await Post.find({}, "-__v");
+    }
+
 }

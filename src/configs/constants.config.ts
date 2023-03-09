@@ -12,6 +12,7 @@ const ENUM = {
 const DATABASES = {
     USER: "user",
     POST: "post",
+    COMMENT: "comment",
 };
 const MESSAGES = {
     DATABASE: {

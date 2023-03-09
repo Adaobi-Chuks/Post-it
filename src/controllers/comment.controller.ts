@@ -9,7 +9,7 @@ const {
     createComment,
     findById,
     getAll,
-    // updateById,
+    updateById,
     // deleteById
 } = new CommentService();
 const {
@@ -17,7 +17,7 @@ const {
     INVALID_ID,
     FETCHED,
     FETCHEDALL,
-    // UPDATED,
+    UPDATED,
     // DELETED
 } = MESSAGES.COMMENT;
 
@@ -74,23 +74,23 @@ export default class CommentController {
         });
     }
 
-    // async updateById(req: Request, res: Response) {
-    //     const id = req.params.id;
-    //     const data = req.body.textContent;
-    //     //use the id to check if the post exists
-    //     if(!(await findById(id))) {
-    //         return res.status(404).json({
-    //             success: false,
-    //             message: INVALID_ID
-    //         })
-    //     }
-    //     const updatedPost = await updateById(id, data)
-    //     return res.status(200).json({
-    //         success: true,
-    //         message: UPDATED,
-    //         data: updatedPost
-    //     })
-    // }
+    async updateById(req: Request, res: Response) {
+        const id = req.params.id;
+        const data = req.body.textContent;
+        //use the id to check if the post exists
+        if(!(await findById(id))) {
+            return res.status(404).json({
+                success: false,
+                message: INVALID_ID
+            })
+        }
+        const updatedComment = await updateById(id, data)
+        return res.status(200).json({
+            success: true,
+            message: UPDATED,
+            data: updatedComment
+        })
+    }
 
     // async deleteById(req: Request, res: Response) {
     //     const id = req.params.id;

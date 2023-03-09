@@ -17,11 +17,11 @@ export default class CommentService {
         return await Comment.find(filter, "-__v");
     }
 
-    // async updateById(id: string, text: string) {
-    //     if(await Post.findOne({ _id: id, isDeleted: false })){
-    //         return await Post.findByIdAndUpdate(id, { textContent: text }, { new: true });
-    //     }
-    // }
+    async updateById(id: string, text: string) {
+        if(await Comment.findOne({ _id: id, isDeleted: false })){
+            return await Comment.findByIdAndUpdate(id, { textContent: text }, { new: true });
+        }
+    }
 
     // async deleteById(id: string) {
     //     return await Post.updateOne(

@@ -42,8 +42,8 @@ const MESSAGES = {
         INVALID_ID: "Comment ID does not exist.",
         FETCHED: "Comment fetched successfully",
         FETCHEDALL: "All available comment fetched successfully",
-        // UPDATED: "Comment updated successfully.",
-        // DELETED: "Comment deleted successfully"
+        UPDATED: "Comment updated successfully.",
+        DELETED: "Comment deleted successfully"
     },
 };
 

@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { MESSAGES } from "../configs/constants.config";
 import PostService from "../services/post.service";
+import User from "../services/user.service";
+const UserService = new User();
 const {
     createPost,
     getAllPosts,
@@ -20,6 +22,13 @@ const {
 export default class PostController {
 
     async createPost(req: Request, res: Response) {
+        //check if the id passed in exist
+        if (!await UserService.findById(req.body.userId) ) {
+            return res.status(404).send({
+                success: false,
+                message: MESSAGES.USER.INVALID_ID
+            });
+        }
 
         const createdPost = await createPost(req.body);
         return res.status(201)

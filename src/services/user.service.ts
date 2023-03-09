@@ -32,12 +32,10 @@ export default class UserService {
     }
 
     async deleteById(id: string) {
-        if(await User.findById(id)) {
-          return await User.updateOne(
-            { _id: id, isDeleted: false }, 
-            {isDeleted: true},
-            {omitUndefined: true});
-        }
+        return await User.updateOne(
+            { _id: id, isDeleted: false },
+            {isDeleted: true}
+        );
     }
 
 }

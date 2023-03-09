@@ -7,6 +7,10 @@ export default class PostService {
         return await Post.create(post);
     }
 
+    async findById(id: string) {
+        return await Post.findOne({ _id: id}, "-__v");
+    }
+
     async getAllPosts() {
         return await Post.find({}, "-__v");
     }

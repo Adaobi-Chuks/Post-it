@@ -4,15 +4,15 @@ import PostService from "../services/post.service";
 const {
     createPost,
     getAllPosts,
-
+    findById
 } = new PostService();
 const {
     CREATED,
     FETCHED,
     FETCHEDALL,
+    INVALID_ID,
     // DUPLICATE_EMAIL,
     // DUPLICATE_USERNAME,
-    // INVALID_ID,
     // UPDATED,
     // DELETED
 } = MESSAGES.POST;
@@ -29,13 +29,31 @@ export default class PostController {
                 data: {createdPost}
             });
     }
-
+    
+    async getPostById(req: Request, res: Response) {
+        //checks if post exists
+        const post = await findById(req.params.id);
+        
+        if (!post) {
+            return res.status(404).send({
+                success: false,
+                message: INVALID_ID
+            });
+        }
+        
+        return res.status(200).send({
+            success: true,
+            message: FETCHED,
+            data: post
+        });
+    }
+    
     async getPost(req: Request, res: Response) {
         const posts = await getAllPosts();
         return res.status(200).send({
-          success: true,
-          message: FETCHEDALL,
-          data: posts
+            success: true,
+            message: FETCHEDALL,
+            data: posts
         });
     }
 

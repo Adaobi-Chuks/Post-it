@@ -22,6 +22,6 @@ router.get("/", getPost);
 router.put("/:id", updateById);
 
 //delete post
-router.delete("/delete/:id", deleteById);
+router.delete("/:id", deleteById);
 
 export default router;

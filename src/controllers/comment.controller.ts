@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { MESSAGES } from "../configs/constants.config";
 import CommentService from "../services/comment.service";
-import UserService from "../services/user.service";
-import PostService from "../services/post.service";
-const User = new UserService();
-const Post = new PostService();
+import User from "../services/user.service";
+import Post from "../services/post.service";
+const UserService = new User();
+const PostService = new Post();
 const {
     createComment,
     findById,
@@ -24,14 +24,13 @@ const {
 export default class CommentController {
 
     async createComment(req: Request, res: Response) {
-
         //check if the ids passed in exist
-        if (!await User.findById(req.body.userId) ) {
+        if (!await UserService.findById(req.body.userId) ) {
             return res.status(404).send({
                 success: false,
                 message: MESSAGES.USER.INVALID_ID
             });
-        } else if (!await Post.findById(req.body.postId) ) {
+        } else if (!await PostService.findById(req.body.postId) ) {
             return res.status(404).send({
                 success: false,
                 message: MESSAGES.POST.INVALID_ID

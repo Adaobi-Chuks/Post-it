@@ -3,7 +3,7 @@ const router = Router();
 import PostController from "../controllers/post.controller";
 const {
     createPost,
-    // getUserById,
+    getPostById,
     getPost,
     // editUserById,
     // deleteUserById
@@ -12,8 +12,8 @@ const {
 //create a post
 router.post("/", createPost);
 
-// //get a post with an id
-// router.get("/:id", getUserById);
+//get a post with an id
+router.get("/:id", getPostById);
 
 //get posts
 router.get("/", getPost);

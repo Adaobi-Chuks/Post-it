@@ -39,9 +39,9 @@ const MESSAGES = {
     },
     COMMENT: {
         CREATED: "Comment created successfully.",
-        // FETCHED: "User fetched successfully",
+        INVALID_ID: "Comment ID does not exist.",
+        FETCHED: "Comment fetched successfully",
         // FETCHEDALL: "All available users fetched successfully",
-        // INVALID_ID: "Post ID does not exist.",
         // UPDATED: "Post updated successfully.",
         // DELETED: "Post deleted successfully"
     },

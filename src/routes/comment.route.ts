@@ -3,25 +3,25 @@ const router = Router();
 import CommentController from "../controllers/comment.controller";
 const {
     createComment,
-    // getPostById,
+    getCommentById,
     // getPost,
     // updateById,
     // deleteById
 } = new CommentController();
 
-//create a post
+//create a comment
 router.post("/", createComment);
 
-// //get a post with an id
-// router.get("/:id", getPostById);
+//get a comment with an id
+router.get("/:id", getCommentById);
 
-// //get posts
+// //get comments
 // router.get("/", getPost);
 
-// //update post details by id
+// //update comment details by id
 // router.put("/:id", updateById);
 
-// //delete post
+// //delete comment
 // router.delete("/delete/:id", deleteById);
 
 export default router;

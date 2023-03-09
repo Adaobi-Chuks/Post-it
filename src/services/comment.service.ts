@@ -23,10 +23,10 @@ export default class CommentService {
         }
     }
 
-    // async deleteById(id: string) {
-    //     return await Post.updateOne(
-    //         { _id: id, isDeleted: false }, 
-    //         {isDeleted: true}
-    //     );
-    // }
+    async deleteById(id: string) {
+        return await Comment.updateOne(
+            { _id: id, isDeleted: false }, 
+            {isDeleted: true}
+        );
+    }
 }

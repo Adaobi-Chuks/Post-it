@@ -10,7 +10,7 @@ const {
     findById,
     getAll,
     updateById,
-    // deleteById
+    deleteById
 } = new CommentService();
 const {
     CREATED,
@@ -18,7 +18,7 @@ const {
     FETCHED,
     FETCHEDALL,
     UPDATED,
-    // DELETED
+    DELETED
 } = MESSAGES.COMMENT;
 
 export default class CommentController {
@@ -48,7 +48,7 @@ export default class CommentController {
     }
 
     async getCommentById(req: Request, res: Response) {
-        //checks if post exists
+        //checks if comment exists
         const comment = await findById(req.params.id);
         
         if (!comment) {
@@ -77,7 +77,7 @@ export default class CommentController {
     async updateById(req: Request, res: Response) {
         const id = req.params.id;
         const data = req.body.textContent;
-        //use the id to check if the post exists
+        //use the id to check if the comment exists
         if(!(await findById(id))) {
             return res.status(404).json({
                 success: false,
@@ -92,27 +92,27 @@ export default class CommentController {
         })
     }
 
-    // async deleteById(req: Request, res: Response) {
-    //     const id = req.params.id;
-    //     //check to see if a post with id exists
-    //     const postToDelete = await findById(id);
+    async deleteById(req: Request, res: Response) {
+        const id = req.params.id;
+        //check to see if a comment with id exists
+        const commentToDelete = await findById(id);
 
-    //     //deletes the post if the id exist
-    //     if(postToDelete) {
-    //         const userDeleted = await deleteById(id);
-    //         if(userDeleted) {
-    //             return res.status(201).send({
-    //                 success: true,
-    //                 message: DELETED
-    //             });
-    //         }
-    //     }
-    //     //sends an error if the id doesn't exists
-    //     return res.status(404)
-    //         .send({
-    //             success: false,
-    //             message: INVALID_ID
-    //         });   
-    // }
+        //deletes the comment if the id exist
+        if(commentToDelete) {
+            const commentDeleted = await deleteById(id);
+            if(commentDeleted) {
+                return res.status(201).send({
+                    success: true,
+                    message: DELETED
+                });
+            }
+        }
+        //sends an error if the id doesn't exists
+        return res.status(404)
+            .send({
+                success: false,
+                message: INVALID_ID
+            });   
+    }
 
 }

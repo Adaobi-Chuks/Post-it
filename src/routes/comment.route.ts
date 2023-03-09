@@ -5,8 +5,8 @@ const {
     createComment,
     getCommentById,
     getComment,
-    // updateById,
-    // deleteById
+    updateById,
+    deleteById
 } = new CommentController();
 
 //create a comment
@@ -18,10 +18,10 @@ router.get("/:id", getCommentById);
 //get comments
 router.get("/", getComment);
 
-// //update comment details by id
-// router.put("/:id", updateById);
+//update comment details by id
+router.put("/:id", updateById);
 
-// //delete comment
-// router.delete("/delete/:id", deleteById);
+//delete comment
+router.delete("/:id", deleteById);
 
 export default router;

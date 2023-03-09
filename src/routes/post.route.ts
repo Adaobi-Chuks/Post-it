@@ -4,24 +4,24 @@ import PostController from "../controllers/post.controller";
 const {
     createPost,
     // getUserById,
-    // getUsers,
+    getPost,
     // editUserById,
     // deleteUserById
 } = new PostController();
 
-//create a user or signup
+//create a post
 router.post("/", createPost);
 
-// //get a user with an id
+// //get a post with an id
 // router.get("/:id", getUserById);
 
-// //get users
-// router.get("/", getUsers);
+//get posts
+router.get("/", getPost);
 
-// //edit any user details
+// //edit any post details
 // router.patch("/:id", editUserById);
 
-// // delete user
+// // delete post
 // router.patch("/delete/:id", deleteUserById);
 
 export default router;

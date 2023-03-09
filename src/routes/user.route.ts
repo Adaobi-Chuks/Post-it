@@ -6,7 +6,7 @@ const {
     getUserById,
     getUsers,
     editUserById,
-    deleteUserById
+    deleteById
 } = new UserController();
 
 //create a user or signup
@@ -22,6 +22,6 @@ router.get("/", getUsers);
 router.patch("/:id", editUserById);
 
 // delete user
-router.patch("/delete/:id", deleteUserById);
+router.patch("/delete/:id", deleteById);
 
 export default router;

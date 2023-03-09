@@ -34,9 +34,7 @@ const MESSAGES = {
         FETCHEDALL: "All available users fetched successfully",
         INVALID_ID: "Post ID does not exist.",
         UPDATED: "Post updated successfully.",
-        // DUPLICATE_EMAIL: "Email already exist.",
-        // DUPLICATE_USERNAME: "UserName already exist.",
-        // DELETED: "User deleted successfully",
+        DELETED: "Post deleted successfully"
     },
 };
 

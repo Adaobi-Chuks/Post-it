@@ -71,13 +71,17 @@ const userSchema = new Schema({
         required: true, 
         trim: true
     },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    },
     role: {
         type: String,
         enum: [ENUM.GUEST, ENUM.ADMIN],
         default: ENUM.GUEST,
         lowercase: true,
         required: false
-    },
+    }
 }, { 
     timestamps: true
 });
@@ -100,17 +104,12 @@ userSchema.pre("findOneAndUpdate", async function (next) {
     }
     
     // Call the generateRandomAvatar function to assign a random avatarURL to the user when an update is made
-    const _email = update.$set.email;
-    const _avatarURL: string = generateRandomAvatar(_email!);
+    const _email: string = update.$set.email as string;
+    update.$set.avatarURL = generateRandomAvatar(_email);
+    update.$set.password = passwordHash;
+    update.$set.updatedAt = new Date();
 
-    this.setUpdate({ 
-        $set: {
-            updatedAt: new Date(),
-            avatarURL: _avatarURL,
-            password: passwordHash
-        }
-    });
-    next()
+    next();
 });
 
 const User = model(DATABASES.USER, userSchema);

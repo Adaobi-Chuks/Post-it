@@ -22,6 +22,6 @@ router.get("/", getUsers);
 router.patch("/:id", editUserById);
 
 // delete user
-router.delete("/:id", deleteUserById);
+router.patch("/delete/:id", deleteUserById);
 
 export default router;

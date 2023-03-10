@@ -102,7 +102,7 @@ export default class CommentController {
         const {id, userId, postId} = req.params;
         const data = req.body.textContent;
 
-        //check if all id's are valid both the deleted and available users and post
+        //check if all ids are valid both the deleted and available users and post
         if(!(await UserService.findAllById(userId))) {
             return res.status(404).json({
                 success: false,

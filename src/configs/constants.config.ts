@@ -4,7 +4,7 @@ const SALTROUNDS = 10;
 const SECRET = process.env.SECRET!;
 const MAXAGE = 3 * 24 * 60 * 60;
 const ENUM = {
-    GUEST: "guest",
+    REGISTEREDUSER: "registered user",
     ADMIN: "admin",
     MALE: "male",
     FEMALE: "female"
@@ -49,6 +49,12 @@ const MESSAGES = {
         UPDATED: "Comment updated successfully.",
         DELETED: "Comment deleted successfully"
     },
+    AUTH: {
+        TOKENERROR: 'Access Denied: Token not provided',
+        INVALIDTOKEN: 'Access Denied: Invalid token',
+        DENIED: 'Access Denied: Unauthorized request',
+        NEEDSRELOGIN: 'Access Denied: Please re-login'
+    }
 };
 
 export {

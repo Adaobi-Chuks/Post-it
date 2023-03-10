@@ -12,5 +12,6 @@ export default interface IUser {
     role: string
 }
 export interface IUserWithId extends IUser {
-    _id: string;
+    _id?: string;
+    id?: string;
 }

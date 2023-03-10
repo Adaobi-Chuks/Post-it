@@ -77,8 +77,9 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
-        enum: [ENUM.GUEST, ENUM.ADMIN],
-        default: ENUM.GUEST,
+        enum: [ENUM.REGISTEREDUSER, ENUM.ADMIN],
+        default: ENUM.REGISTEREDUSER,
+        trim: true,
         lowercase: true,
         required: false
     }

@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
+import bcrypt from "bcrypt";
 import { MAXAGE, MESSAGES } from "../configs/constants.config";
 import UserService from "../services/user.service";
 import { generateAuthToken } from "../utils/authToken.util";
+import { IUserWithId } from "../interfaces/user.interface";
 const {
     findByEmail,
     findByUserName,
@@ -16,11 +18,14 @@ const {
     DUPLICATE_USERNAME,
     CREATED,
     INVALID_USERNAME,
+    INVALID_PASSWORD,
     INVALID_ID,
     FETCHED,
     FETCHEDALL,
     UPDATED,
-    DELETED
+    DELETED,
+    LOGGEDIN,
+    LOGGEDOUT
 } = MESSAGES.USER;
 
 export default class UserController {
@@ -169,5 +174,45 @@ export default class UserController {
                 success: false,
                 message: INVALID_ID
             });   
+    }
+
+    async login(req: Request, res: Response) {
+        const {userName, password} = req.body;
+        const user = await findByUserName(userName);
+        if (!user) {
+            return res.status(400)
+            .send({ 
+                success: false, 
+                message: INVALID_USERNAME
+            });
+        }
+        const validPassword = await bcrypt.compare(password, user.password);
+        if (!validPassword) {
+            return res.status(400)
+            .send({ 
+                success: false, 
+                message: INVALID_PASSWORD
+            });
+        }
+        const token = generateAuthToken(user as unknown as IUserWithId);
+        res.cookie("token", token, { 
+            httpOnly: true, 
+            maxAge: MAXAGE * 1000
+        });
+        return res.header('token', token).status(200).send({
+            success: true,
+            message: LOGGEDIN,
+            data: { user, token }
+        });
+    }
+
+    async logout(req: Request, res: Response) {
+        res.cookie("token", '', {
+            httpOnly: true, maxAge: 1 
+        });
+        return res.header('token', '').status(200).send({
+            success: true,
+            message: LOGGEDOUT
+        });
     }
 }

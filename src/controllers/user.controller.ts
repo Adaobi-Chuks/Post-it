@@ -25,7 +25,6 @@ const {
 export default class UserController {
 
     async createUser(req: Request, res: Response) {
-
         const data = req.body;
         const email = data.email;
         const userName = data.userName;
@@ -39,7 +38,6 @@ export default class UserController {
                 message: DUPLICATE_EMAIL
             });
         }
-
         //checks if another user with userName exists
         if (await findByUserName(userName)) {
             //sends an error if the userName exists
@@ -49,7 +47,6 @@ export default class UserController {
                 message: DUPLICATE_USERNAME
             });
         }
-
         //creates a user if the email and username doesn't exist
         const createdUser = await createUser(data);
         const token = generateAuthToken(createdUser as any);
@@ -75,7 +72,6 @@ export default class UserController {
             message: INVALID_ID
           });
         }
-
         return res.status(200).send({
           success: true,
           message: FETCHED,
@@ -136,9 +132,9 @@ export default class UserController {
 
     async deleteById(req: Request, res: Response) {
         const id = req.params.id;
+
         //check to see if a user with id exists
         const userToDelete = await findById(id);
-
         //deletes the user if the id exist
         if(userToDelete) {
             const userDeleted = await deleteById(id);
@@ -156,5 +152,4 @@ export default class UserController {
                 message: INVALID_ID
             });   
     }
-
 }

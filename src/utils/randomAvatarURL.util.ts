@@ -32,10 +32,9 @@ const getRandomAvatarStyle = () => {
 }
 
 export const generateRandomAvatar = (email: string) => {
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
     const _email = email.replace(/\s/g, "");
-
     const isValidEmail = emailRegex.test(_email);
 
     if(!isValidEmail) {
@@ -59,8 +58,6 @@ export const generateRandomAvatar = (email: string) => {
         console.error("Invalid avatar style");
         throw new Error("Something failed: ");
     }
-
     const avatarUrl = `https://api.dicebear.com/5.x/${randomAvatarStyle}/svg?seed=${seed}&size=200&radius=50`;
-
     return avatarUrl;
 }

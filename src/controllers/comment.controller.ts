@@ -23,23 +23,21 @@ const {
 
 export default class CommentController {
 
-    async createComment(req: Request<{userId: string; postId: string}>, res: Response) {
-        //check if the ids in the params exist
+    async createComment(req: Request, res: Response) {
+        //check if the ids in the params exist irrespective of if the resource has been deleted
         const {userId, postId} = req.params;
-        if (!await UserService.findById(userId) ) {
+        if (!await UserService.findAllById(userId) ) {
             return res.status(404).send({
                 success: false,
                 message: MESSAGES.USER.INVALID_ID
             });
-        } 
-
-        if (!await PostService.findById(postId) ) {
+        }
+        if (!await PostService.findAllById(postId) ) {
             return res.status(404).send({
                 success: false,
                 message: MESSAGES.POST.INVALID_ID
             });
         }
-
         const createdComment = await createComment({
             ...req.body,
             postId: postId,
@@ -58,8 +56,8 @@ export default class CommentController {
         //checks if comment exists
         const comment = await findById(id);
 
+        //if comment exists, check if postId passed in matches the postId of the comment
         if(comment) {
-            //if comment exists, check if postId passed in matches the postId of the comment
             if (JSON.stringify(comment.postId) === JSON.stringify(postId)) {
                 return res.status(200).send({
                     success: true,
@@ -78,7 +76,6 @@ export default class CommentController {
             success: false,
             message: INVALID_ID
         });
-        
     }
     
     async getComments(req: Request, res: Response) {

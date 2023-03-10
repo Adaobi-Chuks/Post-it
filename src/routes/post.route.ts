@@ -1,5 +1,6 @@
 import { Router } from "express";
 const router = Router();
+const userRouter = Router();
 import PostController from "../controllers/post.controller";
 import {postRouter as commentRoute} from './comment.route';
 const {
@@ -11,7 +12,7 @@ const {
 } = new PostController();
 
 //create a post
-router.post("/", createPost);
+userRouter.post("/:userId/posts", createPost);
 
 //get a post with an id
 router.get("/:id", getPostById);
@@ -20,12 +21,15 @@ router.get("/:id", getPostById);
 router.get("/", getPost);
 
 //update post details by id
-router.put("/:id", updateById);
+userRouter.put("/:userId/posts/:id", updateById);
 
 //delete post
-router.delete("/:id", deleteById);
+userRouter.delete("/:userId/posts/:id", deleteById);
 
 //Comment routes
 router.use(commentRoute);
 
-export default router;
+export {
+    router,
+    userRouter
+};

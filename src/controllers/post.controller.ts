@@ -44,9 +44,9 @@ export default class PostController {
     
     async getPostsByHandle(req: Request, res: Response) {
         const userName = req.params.userHandle;
+
         //check if post exists
         const user = await UserService.findByUserName(userName);
-
         if (!user) {
             return res.status(404).send({
                 success: false,

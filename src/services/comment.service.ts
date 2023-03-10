@@ -11,11 +11,13 @@ export default class CommentService {
         return await Comment.findOne({ _id: id, isDeleted: false }, "-__v");
     }
 
-    async getAll(postId: string) {
-        let filter: any = {};
-        filter.isDeleted = false;
-        filter.postId = postId;
-        return await Comment.find(filter, "-__v");
+    //sorts in descending order based on the date created
+    async getAll(query?: object) {
+        let filter: any = {
+            ...query,
+            isDeleted: false
+        };
+        return await Comment.find(filter, "-__v").sort({ createdAt: 'desc' });
     }
 
     async updateById(id: string, text: string) {

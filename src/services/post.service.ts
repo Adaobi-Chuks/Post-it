@@ -16,12 +16,14 @@ export default class PostService {
         return await Post.findOne({ _id: id }, "-__v");
     }
 
+    //sorts in descending order based on the date created
     async getAllPosts(query?: object) {
         let filter: any = {
             ...query,
             isDeleted: false
         };
-        return await Post.find(filter, "-__v");
+        //sorts in descending order based on the date created
+        return await Post.find(filter, "-__v").sort({ createdAt: 'desc' });
     }
 
     async updateById(id: string, text: string) {

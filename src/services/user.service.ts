@@ -26,7 +26,8 @@ export default class UserService {
     async getAllUsers() {
         let filter: any = {};
         filter.isDeleted = false;
-        return await User.find(filter, "-__v");
+        //sorts in descending order based on the date created
+        return await User.find(filter, "-__v").sort({ createdAt: 'desc' });
     }
 
     async editById(id: string, obj: Partial<IUser>) {

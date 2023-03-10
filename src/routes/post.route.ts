@@ -1,6 +1,7 @@
 import { Router } from "express";
 const router = Router();
 import PostController from "../controllers/post.controller";
+import {postRouter as commentRoute} from './comment.route';
 const {
     createPost,
     getPostById,
@@ -23,5 +24,8 @@ router.put("/:id", updateById);
 
 //delete post
 router.delete("/:id", deleteById);
+
+//Comment routes
+router.use(commentRoute);
 
 export default router;

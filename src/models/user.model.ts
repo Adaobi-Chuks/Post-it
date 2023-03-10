@@ -37,8 +37,8 @@ const userSchema = new Schema({
         type: String,
         default: function() {
             // Call the generateRandomAvatar function to assign a random avatarURL to the user
-            const _email: string = (this as IUser).email!;
-            const _avatarURL = generateRandomAvatar(_email!);
+            const _email: string = (this as IUser).email;
+            const _avatarURL = generateRandomAvatar(_email);
             return _avatarURL;
         }
     },

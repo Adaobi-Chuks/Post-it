@@ -1,27 +1,31 @@
 import { Router } from "express";
-const router = Router();
+const userRouter = Router();
+const postRouter = Router();
 import CommentController from "../controllers/comment.controller";
 const {
     createComment,
     getCommentById,
-    getComment,
+    getComments,
     updateById,
     deleteById
 } = new CommentController();
 
 //create a comment
-router.post("/", createComment);
+userRouter.post("/:userId/posts/:postId/comments", createComment);
 
 //get a comment with an id
-router.get("/:id", getCommentById);
+postRouter.get("/:postId/comments/:id", getCommentById);
 
 //get comments
-router.get("/", getComment);
+postRouter.get("/:postId/comments/", getComments);
 
 //update comment details by id
-router.put("/:id", updateById);
+userRouter.put("/:userId/posts/:postId/comments/:id", updateById);
 
 //delete comment
-router.delete("/:id", deleteById);
+userRouter.delete("/:userId/posts/:postId/comments/:id", deleteById);
 
-export default router;
+export {
+    userRouter,
+    postRouter
+};

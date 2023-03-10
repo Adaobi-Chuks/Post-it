@@ -11,6 +11,10 @@ export default class PostService {
         return await Post.findOne({ _id: id, isDeleted: false }, "-__v");
     }
 
+    async findAllById(id: string) {
+        return await Post.findOne({ _id: id }, "-__v");
+    }
+
     async getAllPosts() {
         let filter: any = {};
         filter.isDeleted = false;

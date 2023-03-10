@@ -16,7 +16,7 @@ userRouter.post("/:userId/posts/:postId/comments", createComment);
 //get a comment with an id
 postRouter.get("/:postId/comments/:id", getCommentById);
 
-//get comments
+//get comments for a post
 postRouter.get("/:postId/comments/", getComments);
 
 //update comment details by id

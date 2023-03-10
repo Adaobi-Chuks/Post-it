@@ -11,9 +11,10 @@ export default class CommentService {
         return await Comment.findOne({ _id: id, isDeleted: false }, "-__v");
     }
 
-    async getAll() {
+    async getAll(postId: string) {
         let filter: any = {};
         filter.isDeleted = false;
+        filter.postId = postId;
         return await Comment.find(filter, "-__v");
     }
 

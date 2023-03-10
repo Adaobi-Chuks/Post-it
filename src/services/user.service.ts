@@ -19,6 +19,10 @@ export default class UserService {
         return await User.findOne({ _id: id, isDeleted: false }, "-__v");
     }
 
+    async findAllById(id: string) {
+        return await User.findOne({ _id: id}, "-__v");
+    }
+
     async getAllUsers() {
         let filter: any = {};
         filter.isDeleted = false;

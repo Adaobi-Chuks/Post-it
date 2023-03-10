@@ -23,95 +23,149 @@ const {
 
 export default class CommentController {
 
-    async createComment(req: Request, res: Response) {
-        //check if the ids passed in exist
-        if (!await UserService.findById(req.body.userId) ) {
+    async createComment(req: Request<{userId: string; postId: string}>, res: Response) {
+        //check if the ids in the params exist
+        const {userId, postId} = req.params;
+        if (!await UserService.findById(userId) ) {
             return res.status(404).send({
                 success: false,
                 message: MESSAGES.USER.INVALID_ID
             });
-        } else if (!await PostService.findById(req.body.postId) ) {
+        } 
+
+        if (!await PostService.findById(postId) ) {
             return res.status(404).send({
                 success: false,
                 message: MESSAGES.POST.INVALID_ID
             });
         }
 
-        const createdComment = await createComment(req.body);
+        const createdComment = await createComment({
+            ...req.body,
+            postId: postId,
+            userId: userId
+        });
         return res.status(201)
             .send({
                 success: true,
                 message: CREATED,
-                data: {createdComment}
+                comment: createdComment
             });
     }
 
     async getCommentById(req: Request, res: Response) {
+        const {id, postId} = req.params;
         //checks if comment exists
-        const comment = await findById(req.params.id);
-        
-        if (!comment) {
+        const comment = await findById(id);
+
+        if(comment) {
+            //if comment exists, check if postId passed in matches the postId of the comment
+            if (JSON.stringify(comment.postId) === JSON.stringify(postId)) {
+                return res.status(200).send({
+                    success: true,
+                    message: FETCHED,
+                    data: comment
+                });
+            }
+            //returns an error if postId passed in is wrong
             return res.status(404).send({
                 success: false,
-                message: INVALID_ID
+                message: MESSAGES.POST.INVALID_ID
             });
         }
-        
-        return res.status(200).send({
-            success: true,
-            message: FETCHED,
-            data: comment
+        //returns an error if comment doesn't exist
+        return res.status(404).send({
+            success: false,
+            message: INVALID_ID
         });
+        
     }
     
-    async getComment(req: Request, res: Response) {
-        const comment = await getAll();
-        return res.status(200).send({
-            success: true,
-            message: FETCHEDALL,
-            data: comment
+    async getComments(req: Request, res: Response) {
+        const postId = req.params.postId;
+        //gets all the comments of a post regardless of if the post has been deleted
+        if(await PostService.findAllById(postId)) {
+            const comment = await getAll(postId);
+            return res.status(200).send({
+                success: true,
+                message: FETCHEDALL,
+                data: comment
+            });
+        }
+        //returns an error if postId passed in is wrong
+        return res.status(404).send({
+            success: false,
+            message: MESSAGES.POST.INVALID_ID
         });
     }
 
     async updateById(req: Request, res: Response) {
-        const id = req.params.id;
+        const {id, userId, postId} = req.params;
         const data = req.body.textContent;
-        //use the id to check if the comment exists
-        if(!(await findById(id))) {
+
+        //check if all id's are valid both the deleted and available users and post
+        if(!(await UserService.findAllById(userId))) {
+            return res.status(404).json({
+                success: false,
+                message: MESSAGES.USER.INVALID_ID
+            })
+        }
+        if(!(await PostService.findAllById(postId))) {
+            return res.status(404).json({
+                success: false,
+                message: MESSAGES.POST.INVALID_ID
+            })
+        }
+        //checks if comment exists
+        const comment = await findById(id);
+        if(!(comment)) {
             return res.status(404).json({
                 success: false,
                 message: INVALID_ID
             })
         }
-        const updatedComment = await updateById(id, data)
-        return res.status(200).json({
-            success: true,
-            message: UPDATED,
-            data: updatedComment
-        })
+        //if all are valid, check if userId passed in matches the userId of the comment
+        if (JSON.stringify(comment.userId) === JSON.stringify(userId)) {
+            const updatedComment = await updateById(id, data);
+            return res.status(200).send({
+                success: true,
+                message: FETCHED,
+                data: updatedComment
+            });
+        }
     }
 
     async deleteById(req: Request, res: Response) {
-        const id = req.params.id;
-        //check to see if a comment with id exists
-        const commentToDelete = await findById(id);
+        const {id, userId, postId} = req.params;
 
-        //deletes the comment if the id exist
-        if(commentToDelete) {
-            const commentDeleted = await deleteById(id);
-            if(commentDeleted) {
-                return res.status(201).send({
-                    success: true,
-                    message: DELETED
-                });
-            }
+        //check if all id's are valid both the deleted and available users and post
+        if(!(await UserService.findAllById(userId))) {
+            return res.status(404).json({
+                success: false,
+                message: MESSAGES.USER.INVALID_ID
+            })
         }
-        //sends an error if the id doesn't exists
-        return res.status(404)
-            .send({
+        if(!(await PostService.findAllById(postId))) {
+            return res.status(404).json({
+                success: false,
+                message: MESSAGES.POST.INVALID_ID
+            })
+        }
+        //checks if comment exists
+        const comment = await findById(id);
+        if(!(comment)) {
+            return res.status(404).json({
                 success: false,
                 message: INVALID_ID
-            });   
+            })
+        }
+        //if all are valid, check if userId passed in matches the userId of the comment
+        if (JSON.stringify(comment.userId) === JSON.stringify(userId)) {
+            await deleteById(id);
+            return res.status(201).send({
+                success: true,
+                message: DELETED
+            });
+        }
     }
-
 }

@@ -1,6 +1,7 @@
 import { Router } from "express";
 const router = Router();
 import UserController from '../controllers/user.controller';
+import {userRouter as commentRoute} from './comment.route';
 const {
     createUser,
     getUserById,
@@ -23,5 +24,8 @@ router.patch("/:id", editUserById);
 
 // delete user
 router.delete("/:id", deleteById);
+
+//Comment routes
+router.use(commentRoute);
 
 export default router;

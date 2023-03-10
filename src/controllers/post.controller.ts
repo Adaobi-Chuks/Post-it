@@ -22,25 +22,28 @@ const {
 export default class PostController {
 
     async createPost(req: Request, res: Response) {
-        //check if the id passed in exist
-        if (!await UserService.findById(req.body.userId) ) {
+        //check if the id in the params exist irrespective of if the resource has been deleted
+        const {userId} = req.params;
+        if (!await UserService.findAllById(userId) ) {
             return res.status(404).send({
                 success: false,
                 message: MESSAGES.USER.INVALID_ID
             });
         }
-
-        const createdPost = await createPost(req.body);
+        const createdPost = await createPost({
+            ...req.body,
+            userId: userId
+        });
         return res.status(201)
             .send({
                 success: true,
                 message: CREATED,
-                data: {createdPost}
+                data: createdPost
             });
     }
     
     async getPostById(req: Request, res: Response) {
-        //checks if post exists
+        //check if post exists
         const post = await findById(req.params.id);
         
         if (!post) {
@@ -49,7 +52,6 @@ export default class PostController {
                 message: INVALID_ID
             });
         }
-        
         return res.status(200).send({
             success: true,
             message: FETCHED,
@@ -67,30 +69,54 @@ export default class PostController {
     }
 
     async updateById(req: Request, res: Response) {
-        const id = req.params.id;
+        const {id, userId} = req.params;
         const data = req.body.textContent;
-        //use the id to check if the post exists
-        if(!(await findById(id))) {
+
+        //check if all id's are valid both the deleted and available user
+        if(!(await UserService.findAllById(userId))) {
+            return res.status(404).json({
+                success: false,
+                message: MESSAGES.USER.INVALID_ID
+            })
+        }
+        const post = await findById(id);
+        if(!post) {
             return res.status(404).json({
                 success: false,
                 message: INVALID_ID
             })
         }
-        const updatedPost = await updateById(id, data)
-        return res.status(200).json({
-            success: true,
-            message: UPDATED,
-            data: updatedPost
-        })
+        //if all are valid, check if userId passed in matches the userId of the post
+        if (JSON.stringify(post.userId) === JSON.stringify(userId)) {
+            const updatedPost = await updateById(id, data)
+            return res.status(200).json({
+                success: true,
+                message: UPDATED,
+                data: updatedPost
+            })
+        }
     }
 
     async deleteById(req: Request, res: Response) {
-        const id = req.params.id;
-        //check to see if a post with id exists
-        const postToDelete = await findById(id);
+        const {id, userId} = req.params;
+        const data = req.body.textContent;
 
-        //deletes the post if the id exist
-        if(postToDelete) {
+        //check if all id's are valid both the deleted and available user
+        if(!(await UserService.findAllById(userId))) {
+            return res.status(404).json({
+                success: false,
+                message: MESSAGES.USER.INVALID_ID
+            })
+        }
+        const post = await findById(id);
+        if(!post) {
+            return res.status(404).json({
+                success: false,
+                message: INVALID_ID
+            })
+        }
+        //if all are valid, check if userId passed in matches the userId of the post
+        if (JSON.stringify(post.userId) === JSON.stringify(userId)) {
             const userDeleted = await deleteById(id);
             if(userDeleted) {
                 return res.status(201).send({
@@ -99,12 +125,5 @@ export default class PostController {
                 });
             }
         }
-        //sends an error if the id doesn't exists
-        return res.status(404)
-            .send({
-                success: false,
-                message: INVALID_ID
-            });   
     }
-
 }

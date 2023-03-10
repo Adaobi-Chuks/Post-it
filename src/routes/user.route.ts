@@ -5,6 +5,7 @@ import {userRouter as commentRoute} from './comment.route';
 import {userRouter as postRoute} from './post.route';
 const {
     createUser,
+    getUserByHandle,
     getUserById,
     getUsers,
     editUserById,
@@ -13,6 +14,9 @@ const {
 
 //create a user or signup
 router.post("/", createUser);
+
+//get a user with an handle
+router.get("/@:userHandle", getUserByHandle);
 
 //get a user with an id
 router.get("/:id", getUserById);

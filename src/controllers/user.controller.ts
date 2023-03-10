@@ -15,6 +15,7 @@ const {
     DUPLICATE_EMAIL,
     DUPLICATE_USERNAME,
     CREATED,
+    INVALID_USERNAME,
     INVALID_ID,
     FETCHED,
     FETCHEDALL,
@@ -60,6 +61,23 @@ export default class UserController {
                 message: CREATED,
                 data: {createdUser, token}
             });
+    }
+
+    async getUserByHandle(req: Request, res: Response) {
+        //checks if user exists
+        const user = await findByUserName(req.params.userHandle);
+    
+        if (!user) {
+          return res.status(404).send({
+            success: false,
+            message: INVALID_USERNAME
+          });
+        }
+        return res.status(200).send({
+          success: true,
+          message: FETCHED,
+          data: user
+        });
     }
 
     async getUserById(req: Request, res: Response) {

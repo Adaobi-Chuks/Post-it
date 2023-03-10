@@ -23,6 +23,7 @@ const MESSAGES = {
         DUPLICATE_EMAIL: "Email already exist.",
         DUPLICATE_USERNAME: "UserName already exist.",
         CREATED: "User created successfully.",
+        INVALID_USERNAME: "UserName does not exist.",
         INVALID_ID: "User ID does not exist.",
         UPDATED: "User updated successfully.",
         FETCHED: "User fetched successfully",

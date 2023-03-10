@@ -79,10 +79,12 @@ export default class CommentController {
     }
     
     async getComments(req: Request, res: Response) {
-        const postId = req.params.postId;
+        const id = req.params.postId;
         //gets all the comments of a post regardless of if the post has been deleted
-        if(await PostService.findAllById(postId)) {
-            const comment = await getAll(postId);
+        if(await PostService.findAllById(id)) {
+            const comment = await getAll({
+                postId: id
+            });
             return res.status(200).send({
                 success: true,
                 message: FETCHEDALL,

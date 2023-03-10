@@ -22,9 +22,9 @@ const {
 export default class PostController {
 
     async createPost(req: Request, res: Response) {
-        //check if the id in the params exist irrespective of if the resource has been deleted
+        //check if the id in the params exist
         const {userId} = req.params;
-        if (!await UserService.findAllById(userId) ) {
+        if (!await UserService.findById(userId) ) {
             return res.status(404).send({
                 success: false,
                 message: MESSAGES.USER.INVALID_ID
@@ -45,7 +45,6 @@ export default class PostController {
     async getPostsByHandle(req: Request, res: Response) {
         const userName = req.params.userHandle;
         //check if post exists
-        
         const user = await UserService.findByUserName(userName);
 
         if (!user) {
@@ -67,7 +66,6 @@ export default class PostController {
     async getPostById(req: Request, res: Response) {
         //check if post exists
         const post = await findById(req.params.id);
-        
         if (!post) {
             return res.status(404).send({
                 success: false,

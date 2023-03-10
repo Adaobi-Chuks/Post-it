@@ -1,6 +1,8 @@
 import { Router } from "express";
 const router = Router();
 import UserController from '../controllers/user.controller';
+import authenticate from "../middlewares/auth/authentication.middleware";
+import authorize from "../middlewares/auth/authorization.middleware";
 import {userRouter as commentRoute} from './comment.route';
 import {userRouter as postRoute} from './post.route';
 const {
@@ -30,7 +32,7 @@ router.get("/", getUsers);
 router.patch("/:id", editUserById);
 
 // delete user
-router.delete("/:id", deleteById);
+router.delete("/:id", authenticate, authorize, deleteById);
 
 //create a user or signup
 router.post("/login", login);

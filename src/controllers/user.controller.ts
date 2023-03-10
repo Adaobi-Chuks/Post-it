@@ -60,6 +60,10 @@ export default class UserController {
             httpOnly: true, 
             maxAge: MAXAGE * 1000 
         });
+        res.cookie("needsRelogin", "true", {
+            httpOnly: true, maxAge: MAXAGE * 1000 
+        });
+        res.header("needsRelogin", "true")
         return res.header("token", token).status(201)
             .send({
                 success: true,
@@ -145,8 +149,11 @@ export default class UserController {
                 }
             }
         }
-        const updatedUser = await editById(id, data)
-        return res.status(200).json({
+        const updatedUser = await editById(id, data);
+        res.cookie("needsRelogin", "false", {
+            httpOnly: true, maxAge: MAXAGE * 1000 
+        });
+        return res.header("needsRelogin", "false").status(200).json({
             success: true,
             message: UPDATED,
             data: updatedUser
@@ -199,6 +206,10 @@ export default class UserController {
             httpOnly: true, 
             maxAge: MAXAGE * 1000
         });
+        res.cookie("needsRelogin", "false", {
+            httpOnly: true, maxAge: MAXAGE * 1000 
+        });
+        res.header("needsRelogin", "false")
         return res.header('token', token).status(200).send({
             success: true,
             message: LOGGEDIN,
@@ -210,6 +221,10 @@ export default class UserController {
         res.cookie("token", '', {
             httpOnly: true, maxAge: 1 
         });
+        res.cookie("needsRelogin", "true", {
+            httpOnly: true, maxAge: MAXAGE * 1000 
+        });
+        res.header("needsRelogin", "false");
         return res.header('token', '').status(200).send({
             success: true,
             message: LOGGEDOUT

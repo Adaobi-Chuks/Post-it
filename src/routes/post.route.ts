@@ -2,6 +2,8 @@ import { Router } from "express";
 const router = Router();
 const userRouter = Router();
 import PostController from "../controllers/post.controller";
+import authenticate from "../middlewares/auth/authentication.middleware";
+import authorize from "../middlewares/auth/authorization.middleware";
 import {postRouter as commentRoute} from './comment.route';
 const {
     createPost,
@@ -14,7 +16,7 @@ const {
 } = new PostController();
 
 //create a post
-userRouter.post("/:userId/posts", createPost);
+userRouter.post("/:userId/posts", authenticate, authorize, createPost);
 
 //get posts
 userRouter.get("/@:userHandle/posts", getPostsByHandle);
@@ -29,10 +31,10 @@ router.get("/", getPost);
 // userRouter.get("/:userId/posts", getUsersPost);
 
 //update post details by id
-userRouter.put("/:userId/posts/:id", updateById);
+userRouter.put("/:userId/posts/:id", authenticate, authorize, updateById);
 
 //delete post
-userRouter.delete("/:userId/posts/:id", deleteById);
+userRouter.delete("/:userId/posts/:id", authenticate, authorize, deleteById);
 
 //Comment routes
 router.use(commentRoute);

@@ -29,7 +29,7 @@ router.get("/:id", getUserById);
 router.get("/", getUsers);
 
 //edit any user details
-router.patch("/:id", editUserById);
+router.patch("/:id", authenticate, authorize, editUserById);
 
 // delete user
 router.delete("/:id", authenticate, authorize, deleteById);

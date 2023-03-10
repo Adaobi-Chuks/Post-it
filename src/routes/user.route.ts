@@ -9,7 +9,9 @@ const {
     getUserById,
     getUsers,
     editUserById,
-    deleteById
+    deleteById,
+    login,
+    logout
 } = new UserController();
 
 //create a user or signup
@@ -29,6 +31,12 @@ router.patch("/:id", editUserById);
 
 // delete user
 router.delete("/:id", deleteById);
+
+//create a user or signup
+router.post("/login", login);
+
+//create a user or signup
+router.post("/logout", logout);
 
 //Comment routes
 router.use(commentRoute);

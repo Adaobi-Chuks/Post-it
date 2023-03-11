@@ -87,6 +87,27 @@ export default class PostController {
             data: posts
         });
     }
+    
+    async getUsersPost(req: Request, res: Response) {
+        const id = req.params.userId;
+
+        //check if post exists
+        const user = await UserService.findById(id);
+        if (!user) {
+            return res.status(404).send({
+                success: false,
+                message: MESSAGES.USER.INVALID_ID
+            });
+        }
+        const post = await getAllPosts({
+            userId: user._id
+        })
+        return res.status(200).send({
+            success: true,
+            message: FETCHED,
+            data: post
+        });
+    }
 
     async updateById(req: Request, res: Response) {
         const {id, userId} = req.params;

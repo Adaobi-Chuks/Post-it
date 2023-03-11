@@ -5,9 +5,8 @@ const commentSchema = new Schema({
     textContent: {
         type: String, 
         required: true,
-        lowercase: true,
-        minlength: 10,
-        maxlength: 100,
+        minlength: 3,
+        maxlength: 200,
         trim: true
     },
     userId: {

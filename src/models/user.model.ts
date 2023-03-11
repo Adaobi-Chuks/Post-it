@@ -68,7 +68,7 @@ const userSchema = new Schema({
     },
     location: {
         type: String, 
-        required: true, 
+        required: false, 
         trim: true
     },
     isDeleted: {
@@ -78,10 +78,10 @@ const userSchema = new Schema({
     role: {
         type: String,
         enum: [ENUM.REGISTEREDUSER, ENUM.ADMIN],
-        default: ENUM.REGISTEREDUSER,
-        trim: true,
+        required: false,
         lowercase: true,
-        required: false
+        trim: true,
+        default: ENUM.REGISTEREDUSER
     }
 }, { 
     timestamps: true

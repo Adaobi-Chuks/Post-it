@@ -8,6 +8,7 @@ import { generateRandomAvatar } from "../utils/randomAvatarURL.util";
 const {
     findByEmail,
     findByUserName,
+    findByUserNameWithP,
     createUser,
     findById,
     getAllUsers,
@@ -119,8 +120,10 @@ export default class UserController {
     async editUserById(req: Request, res: Response) {
         const id = req.params.userId;
         const data = req.body;
+        const userToEdit = await findById(id);
+        
         //use the id to check if the user exists
-        if(!(await findById(id))) {
+        if(!userToEdit) {
             return res.status(404).json({
                 success: false,
                 message: INVALID_ID
@@ -195,7 +198,7 @@ export default class UserController {
 
     async login(req: Request, res: Response) {
         const {userName, password} = req.body;
-        const _user = await findByUserName(userName);
+        const _user = await findByUserNameWithP(userName);
         if (!_user) {
             return res.status(400)
             .send({ 
@@ -203,6 +206,7 @@ export default class UserController {
                 message: INVALID_USERNAME
             });
         }
+        
         const validPassword = await bcrypt.compare(password, _user.password);
         if (!validPassword) {
             return res.status(400)

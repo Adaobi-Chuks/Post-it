@@ -128,7 +128,7 @@ export default class CommentController {
             const updatedComment = await updateById(id, data);
             return res.status(200).send({
                 success: true,
-                message: FETCHED,
+                message: UPDATED,
                 updatedComment: updatedComment
             });
         }

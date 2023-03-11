@@ -11,6 +11,10 @@ export default class UserService {
         return await User.findOne({ userName: userName, isDeleted: false }, "-__v -password");
     }
 
+    async findByUserNameWithP(userName: string) {
+        return await User.findOne({ userName: userName, isDeleted: false }, "-__v");
+    }
+
     async createUser(user: Partial<IUser>) {
         const _user = await User.create(user);
         return await User.findOne({ _id: _user.id}, "-__v -password");

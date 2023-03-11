@@ -31,7 +31,7 @@ router.get("/:userId", getUserById);
 router.get("/", getUsers);
 
 //edit any user details
-router.patch("/:iuserId", validate(editSchema), authenticate, authorize, editUserById);
+router.patch("/:userId", validate(editSchema), authenticate, authorize, editUserById);
 
 // delete user
 router.delete("/:userId", authenticate, authorize, deleteById);

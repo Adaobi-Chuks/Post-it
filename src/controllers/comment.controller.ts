@@ -62,7 +62,7 @@ export default class CommentController {
                 return res.status(200).send({
                     success: true,
                     message: FETCHED,
-                    data: comment
+                    comment: comment
                 });
             }
             //returns an error if postId passed in is wrong
@@ -88,7 +88,7 @@ export default class CommentController {
             return res.status(200).send({
                 success: true,
                 message: FETCHEDALL,
-                data: comment
+                comments: comment
             });
         }
         //returns an error if postId passed in is wrong
@@ -129,7 +129,7 @@ export default class CommentController {
             return res.status(200).send({
                 success: true,
                 message: FETCHED,
-                data: updatedComment
+                updatedComment: updatedComment
             });
         }
     }

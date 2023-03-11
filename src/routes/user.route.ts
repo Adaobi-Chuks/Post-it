@@ -25,16 +25,16 @@ router.post("/", validate(createSchema), createUser);
 router.get("/@:userHandle", getUserByHandle);
 
 //get a user with an id
-router.get("/:id", getUserById);
+router.get("/:userId", getUserById);
 
 //get users
 router.get("/", getUsers);
 
 //edit any user details
-router.patch("/:id", validate(editSchema), authenticate, authorize, editUserById);
+router.patch("/:iuserId", validate(editSchema), authenticate, authorize, editUserById);
 
 // delete user
-router.delete("/:id", authenticate, authorize, deleteById);
+router.delete("/:userId", authenticate, authorize, deleteById);
 
 //create a user or signup
 router.post("/login", validate(loginSchema), login);

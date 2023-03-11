@@ -38,7 +38,7 @@ export default class PostController {
             .send({
                 success: true,
                 message: CREATED,
-                data: createdPost
+                post: createdPost
             });
     }
     
@@ -59,7 +59,7 @@ export default class PostController {
         return res.status(200).send({
             success: true,
             message: FETCHED,
-            data: post
+            returnedPost: post
         });
     }
     
@@ -75,16 +75,16 @@ export default class PostController {
         return res.status(200).send({
             success: true,
             message: FETCHED,
-            data: post
+            returnedPost: post
         });
     }
 
-    async getPost(req: Request, res: Response) {
+    async getPosts(req: Request, res: Response) {
         const posts = await getAllPosts();
         return res.status(200).send({
             success: true,
             message: FETCHEDALL,
-            data: posts
+            returnedPosts: posts
         });
     }
     
@@ -105,7 +105,7 @@ export default class PostController {
         return res.status(200).send({
             success: true,
             message: FETCHED,
-            data: post
+            returnedPosts: post
         });
     }
 
@@ -133,7 +133,7 @@ export default class PostController {
             return res.status(200).json({
                 success: true,
                 message: UPDATED,
-                data: updatedPost
+                post: updatedPost
             })
         }
     }

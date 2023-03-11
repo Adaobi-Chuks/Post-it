@@ -4,6 +4,8 @@ const userRouter = Router();
 import PostController from "../controllers/post.controller";
 import authenticate from "../middlewares/auth/authentication.middleware";
 import authorize from "../middlewares/auth/authorization.middleware";
+import validate from "../middlewares/validate.middleware";
+import { createSchema, editSchema } from "../schemas/post.schema";
 import {postRouter as commentRoute} from './comment.route';
 const {
     createPost,
@@ -16,7 +18,7 @@ const {
 } = new PostController();
 
 //create a post
-userRouter.post("/:userId/posts", authenticate, authorize, createPost);
+userRouter.post("/:userId/posts", validate(createSchema), authenticate, authorize, createPost);
 
 //get posts
 userRouter.get("/@:userHandle/posts", getPostsByHandle);
@@ -31,7 +33,7 @@ router.get("/", getPost);
 // userRouter.get("/:userId/posts", getUsersPost);
 
 //update post details by id
-userRouter.put("/:userId/posts/:id", authenticate, authorize, updateById);
+userRouter.put("/:userId/posts/:id", validate(editSchema), authenticate, authorize, updateById);
 
 //delete post
 userRouter.delete("/:userId/posts/:id", authenticate, authorize, deleteById);

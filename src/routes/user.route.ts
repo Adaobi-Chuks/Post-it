@@ -3,6 +3,8 @@ const router = Router();
 import UserController from '../controllers/user.controller';
 import authenticate from "../middlewares/auth/authentication.middleware";
 import authorize from "../middlewares/auth/authorization.middleware";
+import validate from "../middlewares/validate.middleware";
+import { createSchema, editSchema, loginSchema } from "../schemas/user.schema";
 import {userRouter as commentRoute} from './comment.route';
 import {userRouter as postRoute} from './post.route';
 const {
@@ -17,7 +19,7 @@ const {
 } = new UserController();
 
 //create a user or signup
-router.post("/", createUser);
+router.post("/", validate(createSchema), createUser);
 
 //get a user with an handle
 router.get("/@:userHandle", getUserByHandle);
@@ -29,13 +31,13 @@ router.get("/:id", getUserById);
 router.get("/", getUsers);
 
 //edit any user details
-router.patch("/:id", authenticate, authorize, editUserById);
+router.patch("/:id", validate(editSchema), authenticate, authorize, editUserById);
 
 // delete user
 router.delete("/:id", authenticate, authorize, deleteById);
 
 //create a user or signup
-router.post("/login", login);
+router.post("/login", validate(loginSchema), login);
 
 //create a user or signup
 router.post("/logout", logout);

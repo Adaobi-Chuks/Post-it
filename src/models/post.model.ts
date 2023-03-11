@@ -5,9 +5,8 @@ const postSchema = new Schema({
     textContent: {
         type: String, 
         required: true,
-        lowercase: true,
-        minlength: 10,
-        maxlength: 100,
+        minlength: 3,
+        maxlength: 300,
         trim: true
     },
     userId: {

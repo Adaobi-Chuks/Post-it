@@ -52,8 +52,7 @@ const MESSAGES = {
     AUTH: {
         TOKENERROR: 'Access Denied: Token not provided',
         INVALIDTOKEN: 'Access Denied: Invalid token',
-        DENIED: 'Access Denied: Unauthorized request',
-        NEEDSRELOGIN: 'Access Denied: Please re-login'
+        DENIED: 'Access Denied: Unauthorized request'
     }
 };
 

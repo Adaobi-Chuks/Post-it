@@ -31,27 +31,19 @@ const getRandomAvatarStyle = () => {
     return avatarStyles[randomNum];
 }
 
-export const generateRandomAvatar = (email: string) => {
-
+export const generateRandomAvatar = async (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const _email = email.replace(/\s/g, "");
-    const isValidEmail = emailRegex.test(_email);
+    const _email = email.replaceAll(' ', '');
 
-    if(!isValidEmail) {
-        throw new Error('Invalid email');
+    const isValidEmail = emailRegex.test(_email);
+    if (!isValidEmail) {
+        throw new Error('Invalid email')
     }
 
-    //generates a random alphanumeric of length 5
-    const entropySource = () => {
-        return Math.random().toString(36).substring(2,7);
-    };
-
+    const entropySource = () => Math.random().toString(36).substring(2,7);
     const replaceAt = `-${entropySource()}-`
     const replaceDot = `-${entropySource()}-`
-
-    //replaces the first occurance of at and all occurance of . with a random alphanumeric of length 5
     const seed = _email.replace('@', replaceAt).replaceAll('.', replaceDot);
-
     const randomAvatarStyle = getRandomAvatarStyle();
 
     if (!randomAvatarStyle || !avatarStyles.includes(randomAvatarStyle)) {

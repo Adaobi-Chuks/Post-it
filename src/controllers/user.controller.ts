@@ -4,6 +4,7 @@ import { MAXAGE, MESSAGES } from "../configs/constants.config";
 import UserService from "../services/user.service";
 import { generateAuthToken } from "../utils/authToken.util";
 import { IUserWithId } from "../interfaces/user.interface";
+import { generateRandomAvatar } from "../utils/randomAvatarURL.util";
 const {
     findByEmail,
     findByUserName,
@@ -31,9 +32,7 @@ const {
 export default class UserController {
 
     async createUser(req: Request, res: Response) {
-        const data = req.body;
-        const email = data.email;
-        const userName = data.userName;
+        const {email, userName} = req.body;
 
         //checks if another user with email exists
         if (await findByEmail(email)) {
@@ -53,22 +52,24 @@ export default class UserController {
                 message: DUPLICATE_USERNAME
             });
         }
+        const _avatarURL = await generateRandomAvatar(email);
+        const _imageTag = `<img src="${_avatarURL}" alt="An avatar image used to represent ${userName} generated with his personal email.">`
         //creates a user if the email and username doesn't exist
-        const createdUser = await createUser(data);
+        const createdUser = await createUser({
+            ...req.body,
+            avatarURL: _avatarURL,
+            imageTag: _imageTag
+        });
         const token = generateAuthToken(createdUser as any);
         res.cookie("token", token, {
             httpOnly: true, 
             maxAge: MAXAGE * 1000 
         });
-        res.cookie("needsRelogin", "true", {
-            httpOnly: true, maxAge: MAXAGE * 1000 
-        });
-        res.header("needsRelogin", "true")
         return res.header("token", token).status(201)
             .send({
                 success: true,
                 message: CREATED,
-                data: {createdUser, token}
+                createdUser: createdUser
             });
     }
 
@@ -85,13 +86,13 @@ export default class UserController {
         return res.status(200).send({
           success: true,
           message: FETCHED,
-          data: user
+          returnedUser: user
         });
     }
 
     async getUserById(req: Request, res: Response) {
         //checks if user exists
-        const user = await findById(req.params.id);
+        const user = await findById(req.params.userId);
     
         if (!user) {
           return res.status(404).send({
@@ -102,7 +103,7 @@ export default class UserController {
         return res.status(200).send({
           success: true,
           message: FETCHED,
-          data: user
+          returnedUser: user
         });
     }
 
@@ -111,12 +112,12 @@ export default class UserController {
         return res.status(200).send({
           success: true,
           message: FETCHEDALL,
-          data: users
+          returnedUsers: users
         });
     }
 
     async editUserById(req: Request, res: Response) {
-        const id = req.params.id;
+        const id = req.params.userId;
         const data = req.body;
         //use the id to check if the user exists
         if(!(await findById(id))) {
@@ -150,18 +151,21 @@ export default class UserController {
             }
         }
         const updatedUser = await editById(id, data);
-        res.cookie("needsRelogin", "false", {
-            httpOnly: true, maxAge: MAXAGE * 1000 
+        //regenerating token cuz user details was changed
+        const token = generateAuthToken(updatedUser as any);
+        res.cookie("token", token, {
+            httpOnly: true, 
+            maxAge: MAXAGE * 1000 
         });
-        return res.header("needsRelogin", "false").status(200).json({
+        return res.header("token", token).status(200).json({
             success: true,
             message: UPDATED,
-            data: updatedUser
+            editedUser: updatedUser
         })
     }
 
     async deleteById(req: Request, res: Response) {
-        const id = req.params.id;
+        const id = req.params.userId;
 
         //check to see if a user with id exists
         const userToDelete = await findById(id);
@@ -175,8 +179,14 @@ export default class UserController {
                 });
             }
         }
+        //A user shouldn't have access to unauthenticated requests if the user deletes his/her account
+        const token = generateAuthToken(userToDelete as any);
+        res.cookie(token, "", {
+            httpOnly: true, maxAge: MAXAGE * 1000
+        });
         //sends an error if the id doesn't exists
-        return res.status(404)
+        return res.header(token, "")
+            .status(404)
             .send({
                 success: false,
                 message: INVALID_ID
@@ -185,15 +195,15 @@ export default class UserController {
 
     async login(req: Request, res: Response) {
         const {userName, password} = req.body;
-        const user = await findByUserName(userName);
-        if (!user) {
+        const _user = await findByUserName(userName);
+        if (!_user) {
             return res.status(400)
             .send({ 
                 success: false, 
                 message: INVALID_USERNAME
             });
         }
-        const validPassword = await bcrypt.compare(password, user.password);
+        const validPassword = await bcrypt.compare(password, _user.password);
         if (!validPassword) {
             return res.status(400)
             .send({ 
@@ -201,19 +211,15 @@ export default class UserController {
                 message: INVALID_PASSWORD
             });
         }
-        const token = generateAuthToken(user as unknown as IUserWithId);
+        const token = generateAuthToken(_user as unknown as IUserWithId);
         res.cookie("token", token, { 
             httpOnly: true, 
             maxAge: MAXAGE * 1000
         });
-        res.cookie("needsRelogin", "false", {
-            httpOnly: true, maxAge: MAXAGE * 1000 
-        });
-        res.header("needsRelogin", "false")
         return res.header('token', token).status(200).send({
             success: true,
             message: LOGGEDIN,
-            data: { user, token }
+            user: _user 
         });
     }
 
@@ -221,10 +227,6 @@ export default class UserController {
         res.cookie("token", '', {
             httpOnly: true, maxAge: 1 
         });
-        res.cookie("needsRelogin", "true", {
-            httpOnly: true, maxAge: MAXAGE * 1000 
-        });
-        res.header("needsRelogin", "false");
         return res.header('token', '').status(200).send({
             success: true,
             message: LOGGEDOUT

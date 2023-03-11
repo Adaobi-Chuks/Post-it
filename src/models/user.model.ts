@@ -35,18 +35,18 @@ const userSchema = new Schema({
     },
     avatarURL: {
         type: String,
-        default: function() {
-            // Call the generateRandomAvatar function to assign a random avatarURL to the user
-            const _email: string = (this as IUser).email;
-            const _avatarURL = generateRandomAvatar(_email);
-            return _avatarURL;
-        }
+        // default: function() {
+        //     // Call the generateRandomAvatar function to assign a random avatarURL to the user
+        //     const _email: string = (this as IUser).email;
+        //     const _avatarURL = generateRandomAvatar(_email);
+        //     return _avatarURL;
+        // }
     },
     imageTag: {
         type: String,
-        default: function() {
-            return `<img src="${(this as IUser).avatarURL}" alt="An avatar image used to represent ${(this as IUser).userName} generated with his personal email.">`;
-        }
+        // default: function() {
+        //     return `<img src="${(this as IUser).avatarURL}" alt="An avatar image used to represent ${(this as IUser).userName} generated with his personal email.">`;
+        // }
     },
     dateOfBirth: {
         type: Date,
@@ -132,7 +132,7 @@ userSchema.pre("findOneAndUpdate", async function (next) {
     }
     
     // Call the generateRandomAvatar function to assign a random avatarURL to the user when an update is made
-    const url = generateRandomAvatar(_email);
+    const url = await generateRandomAvatar(_email);
     update.$set.avatarURL = url;
     update.$set.imageTag = `<img src="${url}" alt="An avatar image used to represent ${_userName} generated with his personal email.">`;
     update.$set.password = passwordHash;

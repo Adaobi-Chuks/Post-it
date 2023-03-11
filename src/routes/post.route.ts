@@ -11,7 +11,7 @@ const {
     createPost,
     getPostsByHandle,
     getPostById,
-    getPost,
+    getPosts,
     getUsersPost,
     updateById,
     deleteById
@@ -27,7 +27,7 @@ userRouter.get("/@:userHandle/posts", getPostsByHandle);
 router.get("/:id", getPostById);
 
 //get posts
-router.get("/", getPost);
+router.get("/", getPosts);
 
 //get all posts for a user by id
 userRouter.get("/:userId/posts", getUsersPost);

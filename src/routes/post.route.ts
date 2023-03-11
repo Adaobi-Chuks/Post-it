@@ -12,7 +12,7 @@ const {
     getPostsByHandle,
     getPostById,
     getPost,
-    // getUsersPost,
+    getUsersPost,
     updateById,
     deleteById
 } = new PostController();
@@ -20,7 +20,7 @@ const {
 //create a post
 userRouter.post("/:userId/posts", validate(createSchema), authenticate, authorize, createPost);
 
-//get posts
+//get all posts for a user by handle
 userRouter.get("/@:userHandle/posts", getPostsByHandle);
 
 //get a post with an id
@@ -29,8 +29,8 @@ router.get("/:id", getPostById);
 //get posts
 router.get("/", getPost);
 
-// //get all posts for a user
-// userRouter.get("/:userId/posts", getUsersPost);
+//get all posts for a user by id
+userRouter.get("/:userId/posts", getUsersPost);
 
 //update post details by id
 userRouter.put("/:userId/posts/:id", validate(editSchema), authenticate, authorize, updateById);

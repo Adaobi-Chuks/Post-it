@@ -4,6 +4,7 @@ export default interface IUser {
     email: string;
     password: string;
     avatarURL: string;
+    imageTag: string;
     dateOfBirth: Date;
     bio: string;
     gender: string;

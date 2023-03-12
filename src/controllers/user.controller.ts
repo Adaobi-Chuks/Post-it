@@ -53,14 +53,8 @@ export default class UserController {
                 message: DUPLICATE_USERNAME
             });
         }
-        const _avatarURL = await generateRandomAvatar(email);
-        const _imageTag = `<img src="${_avatarURL}" alt="An avatar image used to represent ${userName} generated with his personal email.">`
         //creates a user if the email and username doesn't exist
-        const createdUser = await createUser({
-            ...req.body,
-            avatarURL: _avatarURL,
-            imageTag: _imageTag
-        });
+        const createdUser = await createUser(req.body);
         const token = generateAuthToken(createdUser as any);
         res.cookie("token", token, {
             httpOnly: true, 

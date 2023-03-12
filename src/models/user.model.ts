@@ -98,6 +98,7 @@ userSchema.pre("save", async function (next) {
 userSchema.pre("findOneAndUpdate", async function (next) {
     const update: any = this.getUpdate();
     let passwordHash;
+
     //Only hash the password when the password field is to be updated to avoid rehashing already hashed password
     if (update.$set.password) {
         const salt = await bcrypt.genSalt(SALTROUNDS);
@@ -134,6 +135,5 @@ userSchema.pre("findOneAndUpdate", async function (next) {
 
     next();
 });
-
 const User = model(DATABASES.USER, userSchema);
 export default User;

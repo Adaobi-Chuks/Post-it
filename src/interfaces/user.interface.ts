@@ -12,6 +12,7 @@ export default interface IUser {
     isDeleted: boolean;
     role: string
 }
+
 export interface IUserWithId extends IUser {
     _id?: string;
     id?: string;

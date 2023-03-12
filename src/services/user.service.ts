@@ -2,7 +2,6 @@ import IUser from "../interfaces/user.interface";
 import User from "../models/user.model";
 
 export default class UserService {
-
     async findByEmail(email: string) {
         return await User.findOne({ email: email, isDeleted: false }, "-__v -password");
     }

@@ -18,20 +18,7 @@ const postSchema = new Schema({
     isDeleted: {
         type: Boolean,
         default: false
-    },
-    //might be implemented later
-    // tag: {
-    //     type: Types.ObjectId,
-    //     ref: DATABASES.TAG,
-    //     required: false,
-    //     trim: true
-    // },
-    // like: {
-    //     type: Types.ObjectId,
-    //     ref: DATABASES.LIKE,
-    //     required: false,
-    //     trim: true
-    // }
+    }
 }, { 
     timestamps: true
 });

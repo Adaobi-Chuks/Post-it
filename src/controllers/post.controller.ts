@@ -20,7 +20,6 @@ const {
 } = MESSAGES.POST;
 
 export default class PostController {
-
     async createPost(req: Request, res: Response) {
         //check if the id in the params exist
         const {userId} = req.params;
@@ -115,14 +114,14 @@ export default class PostController {
 
         //check if all id's are valid both the deleted and available user
         if(!(await UserService.findAllById(userId))) {
-            return res.status(404).json({
+            return res.status(404).send({
                 success: false,
                 message: MESSAGES.USER.INVALID_ID
             })
         }
         const post = await findById(id);
         if(!post) {
-            return res.status(404).json({
+            return res.status(404).send({
                 success: false,
                 message: INVALID_ID
             })
@@ -130,7 +129,7 @@ export default class PostController {
         //if all are valid, check if userId passed in matches the userId of the post
         if (JSON.stringify(post.userId) === JSON.stringify(userId)) {
             const updatedPost = await updateById(id, data)
-            return res.status(200).json({
+            return res.status(200).send({
                 success: true,
                 message: UPDATED,
                 post: updatedPost
@@ -144,14 +143,14 @@ export default class PostController {
 
         //check if all id's are valid both the deleted and available user
         if(!(await UserService.findAllById(userId))) {
-            return res.status(404).json({
+            return res.status(404).send({
                 success: false,
                 message: MESSAGES.USER.INVALID_ID
             })
         }
         const post = await findById(id);
         if(!post) {
-            return res.status(404).json({
+            return res.status(404).send({
                 success: false,
                 message: INVALID_ID
             })

@@ -4,7 +4,6 @@ import { MAXAGE, MESSAGES } from "../configs/constants.config";
 import UserService from "../services/user.service";
 import { generateAuthToken } from "../utils/authToken.util";
 import { IUserWithId } from "../interfaces/user.interface";
-import { generateRandomAvatar } from "../utils/randomAvatarURL.util";
 const {
     findByEmail,
     findByUserName,
@@ -31,7 +30,6 @@ const {
 } = MESSAGES.USER;
 
 export default class UserController {
-
     async createUser(req: Request, res: Response) {
         const {email, userName} = req.body;
 
@@ -53,20 +51,14 @@ export default class UserController {
                 message: DUPLICATE_USERNAME
             });
         }
-        const _avatarURL = await generateRandomAvatar(email);
-        const _imageTag = `<img src="${_avatarURL}" alt="An avatar image used to represent ${userName} generated with his personal email.">`
         //creates a user if the email and username doesn't exist
-        const createdUser = await createUser({
-            ...req.body,
-            avatarURL: _avatarURL,
-            imageTag: _imageTag
-        });
+        const createdUser = await createUser(req.body);
         const token = generateAuthToken(createdUser as any);
         res.cookie("token", token, {
             httpOnly: true, 
             maxAge: MAXAGE * 1000 
         });
-        return res.header("token", token).status(201)
+        return res.status(201)
             .send({
                 success: true,
                 message: CREATED,
@@ -124,7 +116,7 @@ export default class UserController {
         
         //use the id to check if the user exists
         if(!userToEdit) {
-            return res.status(404).json({
+            return res.status(404).send({
                 success: false,
                 message: INVALID_ID
             })
@@ -134,7 +126,7 @@ export default class UserController {
             const userEmailWithEmail  = await findByEmail(data.email)
             if(userEmailWithEmail){
                 if(userEmailWithEmail._id.toString() !== id){
-                    return res.status(403).json({
+                    return res.status(403).send({
                         success: false,
                         message: DUPLICATE_EMAIL
                     })
@@ -146,7 +138,7 @@ export default class UserController {
             const userWithUsername  = await findByUserName(data.username)
             if(userWithUsername){
                 if(userWithUsername._id.toString() !== id){
-                    return res.status(403).json({
+                    return res.status(403).send({
                         success: false,
                         message: DUPLICATE_USERNAME
                     })
@@ -160,7 +152,7 @@ export default class UserController {
             httpOnly: true, 
             maxAge: MAXAGE * 1000 
         });
-        return res.header("token", token).status(200).json({
+        return res.status(200).send({
             success: true,
             message: UPDATED,
             editedUser: updatedUser
@@ -188,8 +180,7 @@ export default class UserController {
             httpOnly: true, maxAge: MAXAGE * 1000
         });
         //sends an error if the id doesn't exists
-        return res.header(token, "")
-            .status(404)
+        return res.status(404)
             .send({
                 success: false,
                 message: INVALID_ID
@@ -201,26 +192,26 @@ export default class UserController {
         const _user = await findByUserNameWithP(userName);
         if (!_user) {
             return res.status(400)
-            .send({ 
-                success: false, 
-                message: INVALID_USERNAME
-            });
+                .send({ 
+                    success: false, 
+                    message: INVALID_USERNAME
+                });
         }
         
         const validPassword = await bcrypt.compare(password, _user.password);
         if (!validPassword) {
             return res.status(400)
-            .send({ 
-                success: false, 
-                message: INVALID_PASSWORD
-            });
+                .send({ 
+                    success: false, 
+                    message: INVALID_PASSWORD
+                });
         }
         const token = generateAuthToken(_user as unknown as IUserWithId);
         res.cookie("token", token, { 
             httpOnly: true, 
             maxAge: MAXAGE * 1000
         });
-        return res.header('token', token).status(200).send({
+        return res.status(200).send({
             success: true,
             message: LOGGEDIN,
             user: _user 
@@ -231,7 +222,7 @@ export default class UserController {
         res.cookie("token", '', {
             httpOnly: true, maxAge: 1 
         });
-        return res.header('token', '').status(200).send({
+        return res.status(200).send({
             success: true,
             message: LOGGEDOUT
         });

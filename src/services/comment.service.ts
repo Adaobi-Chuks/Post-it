@@ -2,7 +2,6 @@ import IComment from "../interfaces/comment.interface";
 import Comment from "../models/comment.model";
 
 export default class CommentService {
-   
     async createComment(comment: IComment) {
         return await Comment.create(comment);
     }

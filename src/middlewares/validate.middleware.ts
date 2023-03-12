@@ -7,7 +7,6 @@ function validate(schema: Joi.ObjectSchema<any>): RequestHandler {
     const {error, value} = schema.validate(req.body, {
         abortEarly: false
     });
-
     if(error) {
         let errorMessage: string[] = [];
         error.details.forEach(detail => {
@@ -21,7 +20,6 @@ function validate(schema: Joi.ObjectSchema<any>): RequestHandler {
     }
     //re-assign req.body to the validated sanitized value
     req.body = value;
-    
     next();}
 }
 export default validate;

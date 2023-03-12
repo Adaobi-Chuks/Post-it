@@ -20,31 +20,22 @@ const {
 
 //create a user or signup
 router.post("/", validate(createSchema), createUser);
-
 //get a user with an handle
 router.get("/@:userHandle", getUserByHandle);
-
 //get a user with an id
 router.get("/:userId", getUserById);
-
 //get users
 router.get("/", getUsers);
-
 //edit any user details
 router.patch("/:userId", validate(editSchema), authenticate, authorize, editUserById);
-
 // delete user
 router.delete("/:userId", authenticate, authorize, deleteById);
-
 //create a user or signup
 router.post("/login", validate(loginSchema), login);
-
 //create a user or signup
 router.post("/logout", logout);
-
 //Comment routes
 router.use(commentRoute);
-
 //Post routes
 router.use(postRoute);
 

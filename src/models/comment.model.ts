@@ -24,16 +24,9 @@ const commentSchema = new Schema({
     isDeleted: {
         type: Boolean,
         default: false
-    },
-    // like: {
-    //     type: Types.ObjectId,
-    //     ref: DATABASES.LIKE,
-    //     required: false,
-    //     trim: true
-    // }
+    }
 }, { 
     timestamps: true
 });
-
 const Comment = model(DATABASES.COMMENT, commentSchema);
 export default Comment;

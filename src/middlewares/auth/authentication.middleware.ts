@@ -7,7 +7,7 @@ const UserService = new User();
 
 // check if json web token exists & is verified
 export default function authenticate(req: Request, res: Response, next: NextFunction){
-    let token = req.cookies.token || req.header("token");
+    let token = req.cookies.token;
     if (!token) {
         return res.status(401)
             .send({
@@ -36,5 +36,4 @@ export default function authenticate(req: Request, res: Response, next: NextFunc
             next();
         }
     });
-    
 }

@@ -22,7 +22,6 @@ const {
 } = MESSAGES.COMMENT;
 
 export default class CommentController {
-
     async createComment(req: Request, res: Response) {
         //check if the ids in the params exist irrespective of if the resource has been deleted
         const {userId, postId} = req.params;
@@ -104,13 +103,13 @@ export default class CommentController {
 
         //check if all ids are valid both the deleted and available users and post
         if(!(await UserService.findAllById(userId))) {
-            return res.status(404).json({
+            return res.status(404).send({
                 success: false,
                 message: MESSAGES.USER.INVALID_ID
             })
         }
         if(!(await PostService.findAllById(postId))) {
-            return res.status(404).json({
+            return res.status(404).send({
                 success: false,
                 message: MESSAGES.POST.INVALID_ID
             })
@@ -118,7 +117,7 @@ export default class CommentController {
         //checks if comment exists
         const comment = await findById(id);
         if(!(comment)) {
-            return res.status(404).json({
+            return res.status(404).send({
                 success: false,
                 message: INVALID_ID
             })
@@ -139,13 +138,13 @@ export default class CommentController {
 
         //check if all id's are valid both the deleted and available users and post
         if(!(await UserService.findAllById(userId))) {
-            return res.status(404).json({
+            return res.status(404).send({
                 success: false,
                 message: MESSAGES.USER.INVALID_ID
             })
         }
         if(!(await PostService.findAllById(postId))) {
-            return res.status(404).json({
+            return res.status(404).send({
                 success: false,
                 message: MESSAGES.POST.INVALID_ID
             })
@@ -153,7 +152,7 @@ export default class CommentController {
         //checks if comment exists
         const comment = await findById(id);
         if(!(comment)) {
-            return res.status(404).json({
+            return res.status(404).send({
                 success: false,
                 message: INVALID_ID
             })

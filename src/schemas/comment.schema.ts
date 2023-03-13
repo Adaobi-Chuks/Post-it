@@ -8,7 +8,7 @@ const createSchema = Joi.object({
 });
 
 const editSchema = Joi.object({
-    textContent: Joi.string().min(3).max(200).trim().required(),
+    textContent: Joi.string().min(3).max(200).trim().optional(),
     userId: Joi.forbidden(),
     postId: Joi.forbidden(),
     isDeleted: Joi.forbidden()

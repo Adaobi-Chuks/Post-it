@@ -62,6 +62,7 @@ const MESSAGES = {
         UPDATED: "Tag updated successfully.",
         DELETED: "Tag deleted successfully",
         NOT_ID: "Tag ID is not a valid ID.",
+        INVALID_TAGNAME: "Tag name doesn't exist."
     },
     AUTH: {
         TOKENERROR: 'Access Denied: Token not provided',

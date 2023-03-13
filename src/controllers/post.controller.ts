@@ -120,6 +120,26 @@ export default class PostController {
             returnedPosts: posts
         });
     }
+
+    async getPostsWithTag(req: Request, res: Response) {
+        const name = req.body.tagName;
+        const tag = await TagService.findByTagName(name);
+        if(tag) {
+            const posts = await getAllPosts({
+                tagName: tag.id
+            });
+            return res.status(200).send({
+                success: true,
+                message: FETCHEDALL,
+                returnedPosts: posts
+            });
+        }else {
+            return res.status(404).send({
+                success: false,
+                message: MESSAGES.TAG.INVALID_TAGNAME
+            });
+        }
+    }
     
     async getUsersPost(req: Request, res: Response) {
         const id = req.params.userId;

@@ -7,7 +7,7 @@ https://post-its.onrender.com
 ```
 To view the documentation in order to get you started on testing the endpoints navigate [here](https://post-its.onrender.com/api/docs) or use the link below
 ```
-https://post-its.onrender.com/api/docs
+https://post-its.onrender.com/api/v1/docs
 ```
 To view the Entity Relationship Diagram (ERM) navigate [here](https://dbdesigner.page.link/FNigWjwqEgoSUX6e9) or use the link below
 ```
@@ -22,7 +22,7 @@ https://dbdesigner.page.link/FNigWjwqEgoSUX6e9
 - Comments: Allows for creating, updating, getting a comment, getting all comments under a post and deleting of comments.
 
 ## Requirements
-Some important requirements were implemented in the api. Navigate [here](/requirements.md) to view the listed requirement implemented and reasons for them.
+Some important requirements were implemented in the api. Navigate [here](/requirements.md) to view the listed requirements implemented and reasons for them.
 
 # How To Use
 - Clone the repo 

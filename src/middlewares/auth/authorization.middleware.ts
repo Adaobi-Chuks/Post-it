@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import AuthRequest from "../../interfaces/auth.interface";
-import {MESSAGES} from "../../configs/constants.config";
+import {MESSAGES, ENUM} from "../../configs/constants.config";
 import User from "../../services/user.service";
 const UserService = new User();
 
@@ -21,6 +21,17 @@ export default async function authorize(req: Request, res: Response, next: NextF
                 success: false,
                 message: MESSAGES.AUTH.DENIED
             });
+    }
+    next();
+}
+
+export function authorizeAdmin(req: Request, res: Response, next: NextFunction){
+    if ((req as AuthRequest).user.role !== ENUM.ADMIN) {
+        return res.status(403)
+            .send({
+                success: false, 
+                message: MESSAGES.AUTH.DENIED
+            })
     }
     next();
 }

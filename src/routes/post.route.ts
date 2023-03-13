@@ -14,13 +14,16 @@ const {
     getPosts,
     getUsersPost,
     updateById,
-    deleteById
+    deleteById,
+    getPostsWithTag
 } = new PostController();
 
 //create a post
 userRouter.post("/:userId/posts", validate(createSchema), authenticate, authorize, createPost);
 //get all posts for a user by handle
 userRouter.get("/@:userHandle/posts", getPostsByHandle);
+//get all posts relating to a tag
+router.get("/tags", getPostsWithTag);
 //get a post with an id
 router.get("/:id", getPostById);
 //get posts

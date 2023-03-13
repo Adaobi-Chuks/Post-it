@@ -23,7 +23,7 @@ router.get("/", getTags);
 //update tag details by id
 userRouter.put("/:userId/tags/:id", validate(createSchema), authenticate, authorizeAdmin, updateById);
 //delete tag by id
-userRouter.delete("/:userId/tags/:id", authenticate, authorizeAdmin, deleteById);
+userRouter.delete("/:userId/:id", authenticate, authorizeAdmin, deleteById);
 
 export {
     router,

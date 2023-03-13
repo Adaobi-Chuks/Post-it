@@ -15,15 +15,15 @@ const {
 } = new TagController();
 
 //create a tag
-userRouter.post("/:userId", validate(createSchema), authenticate, authorize, createTag);
+userRouter.post("/:userId/tags", validate(createSchema), authenticate, authorize, createTag);
 //get a tag with an id
 router.get("/:id", getTagById);
 //get tags
 router.get("/", getTags);
 //update tag details by id
-userRouter.put("/:userId/:id", validate(createSchema), authenticate, authorizeAdmin, updateById);
+userRouter.put("/:userId/tags/:id", validate(createSchema), authenticate, authorizeAdmin, updateById);
 //delete tag by id
-userRouter.delete("/:userId/:id", authenticate, authorizeAdmin, deleteById);
+userRouter.delete("/:userId/tags/:id", authenticate, authorizeAdmin, deleteById);
 
 export {
     router,

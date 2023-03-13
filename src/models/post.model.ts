@@ -9,6 +9,12 @@ const postSchema = new Schema({
         maxlength: 300,
         trim: true
     },
+    tagName: {
+        type: Types.ObjectId,
+        ref: DATABASES.TAG,
+        required: false,
+        trim: true
+    },
     userId: {
         type: Types.ObjectId,
         ref: DATABASES.USER,

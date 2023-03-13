@@ -16,3 +16,5 @@ Note: the image tag updates when changes are made to the user’s resource which
 - In packaging my folder I made use of layered structuring because there were lots of components that needed to be implemented so by dividing the code into layers based on functionality helped make the system easier to understand and maintain.
 
 - PATCH was used instead of PUT because it involve updating only certain fields depending on what the user inputs, and the resource is not being fully replaced. But for the rest PUT was more appropriate since only one field is needed from the user to create the resource.
+
+- Only the routes that need authentication has "/users/userId" in them, to avoid unneccessary long endpoints

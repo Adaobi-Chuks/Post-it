@@ -1,8 +1,11 @@
 import { Request, Response } from "express";
 import { MESSAGES } from "../configs/constants.config";
 import PostService from "../services/post.service";
+import Tag from "../services/tag.service";
 import User from "../services/user.service";
+import isObjectId from "../utils/isValidObjectId.util";
 const UserService = new User();
+const TagService = new Tag();
 const {
     createPost,
     getAllPosts,
@@ -16,21 +19,44 @@ const {
     FETCHEDALL,
     INVALID_ID,
     UPDATED,
-    DELETED
+    DELETED,
+    NOT_ID
 } = MESSAGES.POST;
 
 export default class PostController {
     async createPost(req: Request, res: Response) {
-        //check if the id in the params exist
         const {userId} = req.params;
+        const {tagName} = req.body;
+
+        //checks if the Id passed in is a valid Id
+        if(!isObjectId(userId)){
+            return res.status(404).send({
+                success: false,
+                message: MESSAGES.USER.NOT_ID
+            });
+        }
+        
+        //check if the id in the params exist
         if (!await UserService.findById(userId) ) {
             return res.status(404).send({
                 success: false,
                 message: MESSAGES.USER.INVALID_ID
             });
         }
+        //check if tag already exists and creates one if it doesn't
+        let tag;
+        const foundTag = await TagService.findByTagName(tagName)
+        if(!foundTag){
+            const createdTag = await TagService.createTag({
+                tagName: tagName
+            });
+            tag = createdTag.id;
+        }else{
+            tag = foundTag.id;
+        }
         const createdPost = await createPost({
-            ...req.body,
+            textContent: req.body.textContent,
+            tagName: tag,
             userId: userId
         });
         return res.status(201)
@@ -63,6 +89,14 @@ export default class PostController {
     }
     
     async getPostById(req: Request, res: Response) {
+        //checks if the Id passed in is a valid Id
+        if(!isObjectId(req.params.id)){
+            return res.status(404).send({
+                success: false,
+                message: NOT_ID
+            });
+        }
+
         //check if post exists
         const post = await findById(req.params.id);
         if (!post) {
@@ -112,6 +146,20 @@ export default class PostController {
         const {id, userId} = req.params;
         const data = req.body.textContent;
 
+        //checks if the Id passed in is a valid Id
+        if(!isObjectId(id)){
+            return res.status(404).send({
+                success: false,
+                message: NOT_ID
+            });
+        }
+        if(!isObjectId(userId)){
+            return res.status(404).send({
+                success: false,
+                message: MESSAGES.USER.NOT_ID
+            });
+        }
+
         //check if all id's are valid both the deleted and available user
         if(!(await UserService.findAllById(userId))) {
             return res.status(404).send({
@@ -139,7 +187,20 @@ export default class PostController {
 
     async deleteById(req: Request, res: Response) {
         const {id, userId} = req.params;
-        const data = req.body.textContent;
+
+        //checks if the Id passed in is a valid Id
+        if(!isObjectId(id)){
+            return res.status(404).send({
+                success: false,
+                message: NOT_ID
+            });
+        }
+        if(!isObjectId(userId)){
+            return res.status(404).send({
+                success: false,
+                message: MESSAGES.USER.NOT_ID
+            });
+        }
 
         //check if all id's are valid both the deleted and available user
         if(!(await UserService.findAllById(userId))) {

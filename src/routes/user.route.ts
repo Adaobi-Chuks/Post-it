@@ -7,6 +7,7 @@ import validate from "../middlewares/validate.middleware";
 import { createSchema, editSchema, loginSchema } from "../schemas/user.schema";
 import {userRouter as commentRoute} from './comment.route';
 import {userRouter as postRoute} from './post.route';
+import {userRouter as tagRoute} from './tag.route';
 const {
     createUser,
     getUserByHandle,
@@ -38,5 +39,7 @@ router.post("/logout", logout);
 router.use(commentRoute);
 //Post routes
 router.use(postRoute);
+//Tag routes
+router.use(tagRoute);
 
 export default router;

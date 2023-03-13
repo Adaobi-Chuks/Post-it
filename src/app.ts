@@ -6,9 +6,11 @@ import cookieParser from "cookie-parser";
 import database from "./configs/database.config";
 import rootRoute from "./routes/index.route";
 import {PORT} from "./configs/constants.config";
+import asyncExpressError from "express-async-error";
 
 const app = express();
 
+app.use(asyncExpressError());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

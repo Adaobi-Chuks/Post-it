@@ -3,6 +3,7 @@ import { MESSAGES } from "../configs/constants.config";
 import CommentService from "../services/comment.service";
 import User from "../services/user.service";
 import Post from "../services/post.service";
+import isObjectId from "../utils/isValidObjectId.util";
 const UserService = new User();
 const PostService = new Post();
 const {
@@ -18,13 +19,28 @@ const {
     FETCHED,
     FETCHEDALL,
     UPDATED,
-    DELETED
+    DELETED,
+    NOT_ID
 } = MESSAGES.COMMENT;
 
 export default class CommentController {
     async createComment(req: Request, res: Response) {
         //check if the ids in the params exist irrespective of if the resource has been deleted
         const {userId, postId} = req.params;
+
+        //checks if the Id passed in is a valid Id
+        if(!isObjectId(userId)){
+            return res.status(404).send({
+                success: false,
+                message: MESSAGES.USER.NOT_ID
+            });
+        }
+        if(!isObjectId(postId)){
+            return res.status(404).send({
+                success: false,
+                message: MESSAGES.POST.NOT_ID
+            });
+        }
         if (!await UserService.findAllById(userId) ) {
             return res.status(404).send({
                 success: false,
@@ -52,6 +68,21 @@ export default class CommentController {
 
     async getCommentById(req: Request, res: Response) {
         const {id, postId} = req.params;
+
+        //checks if the Id passed in is a valid Id
+        if(!isObjectId(postId)){
+            return res.status(404).send({
+                success: false,
+                message: MESSAGES.POST.NOT_ID
+            });
+        }
+        if(!isObjectId(id)){
+            return res.status(404).send({
+                success: false,
+                message: NOT_ID
+            });
+        }
+
         //checks if comment exists
         const comment = await findById(id);
 
@@ -101,6 +132,26 @@ export default class CommentController {
         const {id, userId, postId} = req.params;
         const data = req.body.textContent;
 
+        //checks if the Id passed in is a valid Id
+        if(!isObjectId(userId)){
+            return res.status(404).send({
+                success: false,
+                message: MESSAGES.USER.NOT_ID
+            });
+        }
+        if(!isObjectId(postId)){
+            return res.status(404).send({
+                success: false,
+                message: MESSAGES.POST.NOT_ID
+            });
+        }
+        if(!isObjectId(id)){
+            return res.status(404).send({
+                success: false,
+                message: NOT_ID
+            });
+        }
+        
         //check if all ids are valid both the deleted and available users and post
         if(!(await UserService.findAllById(userId))) {
             return res.status(404).send({
@@ -135,6 +186,26 @@ export default class CommentController {
 
     async deleteById(req: Request, res: Response) {
         const {id, userId, postId} = req.params;
+
+        //checks if the Id passed in is a valid Id
+        if(!isObjectId(userId)){
+            return res.status(404).send({
+                success: false,
+                message: MESSAGES.USER.NOT_ID
+            });
+        }
+        if(!isObjectId(postId)){
+            return res.status(404).send({
+                success: false,
+                message: MESSAGES.POST.NOT_ID
+            });
+        }
+        if(!isObjectId(id)){
+            return res.status(404).send({
+                success: false,
+                message: NOT_ID
+            });
+        }
 
         //check if all id's are valid both the deleted and available users and post
         if(!(await UserService.findAllById(userId))) {

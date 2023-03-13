@@ -13,6 +13,7 @@ const DATABASES = {
     USER: "user",
     POST: "post",
     COMMENT: "comment",
+    TAG: "tag"
 };
 const MESSAGES = {
     DATABASE: {
@@ -26,6 +27,7 @@ const MESSAGES = {
         INVALID_USERNAME: "UserName does not exist.",
         INVALID_PASSWORD: "Incorrect password.",
         INVALID_ID: "User ID does not exist.",
+        NOT_ID: "User ID is not a valid ID.",
         UPDATED: "User updated successfully.",
         FETCHED: "User fetched successfully",
         FETCHEDALL: "All available users fetched successfully",
@@ -38,22 +40,34 @@ const MESSAGES = {
         FETCHED: "Post fetched successfully",
         FETCHEDALL: "All available posts fetched successfully",
         INVALID_ID: "Post ID does not exist.",
+        NOT_ID: "Post ID is not a valid ID.",
         UPDATED: "Post updated successfully.",
         DELETED: "Post deleted successfully"
     },
     COMMENT: {
         CREATED: "Comment created successfully.",
         INVALID_ID: "Comment ID does not exist.",
+        NOT_ID: "Comment ID is not a valid ID.",
         FETCHED: "Comment fetched successfully",
-        FETCHEDALL: "All available comment fetched successfully",
+        FETCHEDALL: "All available comments fetched successfully",
         UPDATED: "Comment updated successfully.",
         DELETED: "Comment deleted successfully"
+    },
+    TAG: {
+        DUPLICATE_TAGNAME: "TagName already exists.",
+        CREATED: "Tag created successfully.",
+        FETCHED: "Tag fetched successfully",
+        INVALID_ID: "Tag ID does not exist.",
+        FETCHEDALL: "All available tags fetched successfully",
+        UPDATED: "Tag updated successfully.",
+        DELETED: "Tag deleted successfully",
+        NOT_ID: "Tag ID is not a valid ID.",
     },
     AUTH: {
         TOKENERROR: 'Access Denied: Token not provided',
         INVALIDTOKEN: 'Access Denied: Invalid token',
         DENIED: 'Access Denied: Unauthorized request'
-    }
+    },
 };
 
 export {

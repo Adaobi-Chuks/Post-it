@@ -13,13 +13,14 @@ To view the Entity Relationship Diagram (ERM) navigate [here](https://dbdesigner
 ```
 https://dbdesigner.page.link/FNigWjwqEgoSUX6e9
 ```
-#### This API is designed to manage operations on a Post-It app by providing services for managing users, posts and comments.
+#### This API is designed to manage operations on a Post-It app by providing services for managing users, posts, comments and tags.
 
-## The API has three main components:
+## The API has four main components:
 
 - Users: Allows for creating, updating, getting a user with the use of id or the user's handle, getting all users, loging in a user, logging out a user, deleting users who can access the API.
 - Posts: Allows for creating, updating, getting a post, getting all of a user's posts either with an id or with the user's handle and deleting of posts.
 - Comments: Allows for creating, updating, getting a comment, getting all comments under a post and deleting of comments.
+- Tags: Allows for creating, updating, getting a tag, getting all tags and deleting of tags.
 
 ## Requirements
 Some important requirements were implemented in the api. Navigate [here](/requirements.md) to view the listed requirements implemented and reasons for them.

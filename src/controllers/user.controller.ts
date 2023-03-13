@@ -4,6 +4,7 @@ import { MAXAGE, MESSAGES } from "../configs/constants.config";
 import UserService from "../services/user.service";
 import { generateAuthToken } from "../utils/authToken.util";
 import { IUserWithId } from "../interfaces/user.interface";
+import isObjectId from "../utils/isValidObjectId.util";
 const {
     findByEmail,
     findByUserName,
@@ -26,7 +27,8 @@ const {
     UPDATED,
     DELETED,
     LOGGEDIN,
-    LOGGEDOUT
+    LOGGEDOUT,
+    NOT_ID
 } = MESSAGES.USER;
 
 export default class UserController {
@@ -84,14 +86,22 @@ export default class UserController {
     }
 
     async getUserById(req: Request, res: Response) {
+        //checks if the Id passed in is a valid Id
+        if(!isObjectId(req.params.userId)){
+            return res.status(404).send({
+                success: false,
+                message: NOT_ID
+            });
+        }
+
         //checks if user exists
         const user = await findById(req.params.userId);
     
         if (!user) {
-          return res.status(404).send({
-            success: false,
-            message: INVALID_ID
-          });
+            return res.status(404).send({
+                success: false,
+                message: INVALID_ID
+            });
         }
         return res.status(200).send({
           success: true,
@@ -113,6 +123,14 @@ export default class UserController {
         const id = req.params.userId;
         const data = req.body;
         const userToEdit = await findById(id);
+
+        //checks if the Id passed in is a valid Id
+        if(!isObjectId(id)){
+            return res.status(404).send({
+                success: false,
+                message: NOT_ID
+            });
+        }
         
         //use the id to check if the user exists
         if(!userToEdit) {
@@ -161,6 +179,14 @@ export default class UserController {
 
     async deleteById(req: Request, res: Response) {
         const id = req.params.userId;
+
+        //checks if the Id passed in is a valid Id
+        if(!isObjectId(id)){
+            return res.status(404).send({
+                success: false,
+                message: NOT_ID
+            });
+        }
 
         //check to see if a user with id exists
         const userToDelete = await findById(id);

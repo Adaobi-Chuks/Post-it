@@ -5,7 +5,7 @@ This contains the code source for the [Post-It](https://post-its.onrender.com) A
 ```
 https://post-its.onrender.com
 ```
-To view the documentation in order to get you started on testing the endpoints navigate [here](https://post-its.onrender.com/api/docs) or use the link below
+To view the documentation in order to get you started on testing the endpoints navigate [here](https://post-its.onrender.com/api/v1/docs) or use the link below
 ```
 https://post-its.onrender.com/api/v1/docs
 ```
